@@ -864,8 +864,22 @@
         admin: "الإدارة",
         strategy: "الاستراتيجية",
       };
+      function readStored(key, fallback) {
+        try {
+          const value = localStorage.getItem(key);
+          return value ? JSON.parse(value) : fallback;
+        } catch {
+          return fallback;
+        }
+      }
       const S = {
-        pts: 300,
+        pts: readStored("booknook-points", 300),
+        recharges: readStored("booknook-recharges", []),
+        hist: readStored("booknook-points-history", [
+          { t: "رصيد ترحيبي", v: 300 },
+          { t: "شراء: الأب الغني والأب الفقير", v: -40 },
+          { t: "إهداء: مقدمة ابن خلدون", v: 40 },
+        ]),
         nid: 40,
         books: [
           {
@@ -1182,11 +1196,6 @@
             cafe: "كافيه ريڤولفر - المعادي",
           },
         ],
-        hist: [
-          { t: "رصيد ترحيبي", v: 300 },
-          { t: "شراء: الأب الغني والأب الفقير", v: -40 },
-          { t: "إهداء: مقدمة ابن خلدون", v: 40 },
-        ],
         rec: [{ o: 13, a: 25, w: "ادفع الآن - فوري", s: "مدفوع" }],
         cafes: [
           { n: "كافيه ديوان - الزمالك", g: "القاهرة", k: 42 },
@@ -1224,29 +1233,71 @@
       function closeM() {
         $("#ov").classList.remove("on");
       }
+      function saveRechargeData() {
+        try {
+          localStorage.setItem("booknook-points", JSON.stringify(S.pts));
+          localStorage.setItem(
+            "booknook-recharges",
+            JSON.stringify(S.recharges),
+          );
+          localStorage.setItem(
+            "booknook-points-history",
+            JSON.stringify(S.hist),
+          );
+        } catch {
+          toast("تعذر حفظ البيانات محلياً في هذا المتصفح");
+        }
+      }
+      function escapeHTML(value) {
+        const element = document.createElement("span");
+        element.textContent = value;
+        return element.innerHTML;
+      }
       function recharge() {
-        modal(`<h3>اشحن نقاط القراءة</h3><p style="color:var(--mut);margin:0">اختار الباقة وطريقة الدفع المناسبة.</p>
+        modal(`<h3>شحن نقاط عبر فودافون كاش</h3><p style="color:var(--mut);margin:0">حوّل قيمة الباقة للرقم التالي، ثم اكتب اسم المرسل المسجل في التحويل.</p>
+<div class="card" style="margin:12px 0;text-align:center"><small style="color:var(--mut)">رقم فودافون كاش</small><div class="cairo" style="font-size:1.6rem;font-weight:800;direction:ltr">01060661867</div></div>
 <label class="opt"><input type="radio" name="pack" value="100:25" checked><span><b>١٠٠ نقطة</b><br><small>٢٥ ج.م</small></span></label>
 <label class="opt"><input type="radio" name="pack" value="250:50"><span><b>٢٥٠ نقطة</b><br><small>٥٠ ج.م</small></span><span class="tag a">الأكثر اختياراً</span></label>
 <label class="opt"><input type="radio" name="pack" value="600:100"><span><b>٦٠٠ نقطة</b><br><small>١٠٠ ج.م</small></span><span class="tag e">قيمة أفضل</span></label>
-<label for="rechargePay">طريقة الدفع</label><select id="rechargePay"><option>فوري</option><option>فودافون كاش</option><option>إنستا باي</option></select>
-<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">محاكاة تجريبية فقط؛ لن يتم خصم أموال حقيقية.</p>
-<div class="row" style="margin-top:16px"><button class="btn" onclick="completeRecharge()">تأكيد الشحن</button><button class="btn o" onclick="closeM()">إلغاء</button></div>`);
+<label for="senderName">اسم مرسل التحويل</label><input id="senderName" autocomplete="name" maxlength="80" placeholder="اكتب الاسم كما يظهر في التحويل">
+<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">سيظل الرصيد كما هو حتى يراجع المشرف التحويل ويؤكده. نموذج تجريبي؛ لا يتم التحقق من الدفع تلقائياً.</p>
+<div class="row" style="margin-top:16px"><button class="btn" onclick="submitRecharge()">أرسلت التحويل</button><button class="btn o" onclick="closeM()">إلغاء</button></div>`);
       }
-      function completeRecharge() {
-        const [points, amount] = $("input[name='pack']:checked").value
+      function submitRecharge() {
+        const sender = $("#senderName").value.trim(),
+          [points, amount] = $("input[name='pack']:checked").value
             .split(":")
-            .map(Number),
-          method = $("#rechargePay").value;
-        S.pts += points;
-        S.hist.unshift({
-          t: `شحن ${points} نقطة - ${amount} ج.م (${method})`,
-          v: points,
-        });
+            .map(Number);
+        if (!sender) return toast("اكتب اسم مرسل التحويل أولاً");
+        const request = {
+          id: Date.now(),
+          sender,
+          points,
+          amount,
+          status: "pending",
+          createdAt: new Date().toLocaleString("ar-EG"),
+        };
+        S.recharges.unshift(request);
+        saveRechargeData();
         closeM();
-        nav();
         R.wallet();
-        toast(`تمت إضافة ${points} نقطة إلى رصيدك (محاكاة تجريبية)`);
+        toast("تم حفظ طلب الشحن. النقاط بعد تأكيد المشرف.");
+      }
+      function reviewRecharge(id, approved) {
+        const request = S.recharges.find((item) => item.id === id);
+        if (!request || request.status !== "pending") return;
+        request.status = approved ? "confirmed" : "rejected";
+        if (approved) {
+          S.pts += request.points;
+          S.hist.unshift({
+            t: `شحن مؤكد: ${request.points} نقطة (${request.sender})`,
+            v: request.points,
+          });
+        }
+        saveRechargeData();
+        nav();
+        R.admin();
+        toast(approved ? "تم تأكيد التحويل وإضافة النقاط" : "تم رفض طلب الشحن");
       }
       $("#ov").onclick = (e) => {
         if (e.target.id === "ov") closeM();
@@ -1344,17 +1395,25 @@
 ${L.length ? L.map(ocard).join("") : '<div class="empty">مفيش طلبات هنا. ابدأ بتصفح المكتبة وابعت طلب.</div>'}`;
         },
         wallet() {
+          const rechargeStatus = {
+            pending: "بانتظار التأكيد",
+            confirmed: "تم التأكيد",
+            rejected: "مرفوض",
+          };
           $("#app").innerHTML =
             `<h2 style="margin-top:.4em">محفظة بوك نوك</h2><div class="card"><div style="color:var(--mut)">رصيد النقاط</div><div class="big">${S.pts} <span style="font-size:1.1rem">نقطة قراءة</span></div><p style="color:var(--mut);margin:0">اكسب النقاط بعرض الكتب أو اشحن باقة تجريبية، واستخدم رصيدك لطلب الكتب.</p><div class="row" style="margin-top:10px"><button class="btn a" onclick="recharge()">اشحن نقاط</button><button class="btn" onclick="upload()">اكسب 30 نقطة</button><button class="btn o" onclick="go('market')">اصرف نقاطك</button></div></div>
 <h2>سجل النقاط</h2><div class="card">${S.hist.map((h) => `<div class="hist"><span>${h.t}</span><span class="${h.v > 0 ? "plus" : "minus"}">${h.v > 0 ? "+" : ""}${h.v}</span></div>`).join("")}</div>
+<h2>طلبات شحن النقاط</h2><div class="card">${S.recharges.length ? S.recharges.map((request) => `<div class="hist" style="flex-wrap:wrap;gap:8px"><span>${request.points} نقطة · ${request.amount} ج.م · فودافون كاش · ${escapeHTML(request.sender)} · ${request.createdAt}</span><span class="st ${request.status === "confirmed" ? "done" : request.status === "rejected" ? "disputed" : "pending"}">${rechargeStatus[request.status]}</span></div>`).join("") : '<div class="empty">مفيش طلبات شحن.</div>'}</div>
 <h2>مدفوعات التوصيل</h2><div class="card">${S.rec.length ? S.rec.map((r) => `<div class="hist"><span>طلب #${r.o} - ${r.w}</span><span><b>${r.a} ج.م</b> <span class="tag e">${r.s}</span></span></div>`).join("") : '<div class="empty">مفيش مدفوعات توصيل لسه.</div>'}<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">بتدفع رسوم التوصيل مع كل طلب. مفيش رصيد فلوس في المحفظة؛ شحن النقاط في النسخة التجريبية محاكاة فقط.</p></div>`;
         },
         admin() {
           const pend = S.books.filter((b) => b.s === "pending"),
             dis = S.orders.filter((o) => o.st === "disputed"),
+            pendingRecharges = S.recharges.filter((request) => request.status === "pending"),
             door = S.rec.length;
           $("#app").innerHTML =
             `<h2 style="margin-top:.4em">لوحة إدارة المنصة</h2><div class="stats"><div class="stat"><b>${S.users.toLocaleString("ar-EG")}</b><small>إجمالي المستخدمين</small></div><div class="stat"><b>${(S.books.filter((b) => b.s === "ok").length + 2400).toLocaleString("ar-EG")}</b><small>كتب نشطة</small></div><div class="stat"><b>${S.swaps}</b><small>تبادلات مكتملة</small></div><div class="stat"><b>${(3450 + door * 5).toLocaleString("ar-EG")} ج.م</b><small>إيراد التوصيل</small></div></div>
+<h2>تأكيد تحويلات فودافون كاش</h2><p style="color:var(--mut)">طلبات هذه النسخة التجريبية محفوظة في هذا المتصفح فقط. راجع التحويل يدوياً قبل التأكيد.</p><div class="card">${pendingRecharges.length ? pendingRecharges.map((request) => `<div class="hist" style="flex-wrap:wrap;gap:8px"><span>#${request.id} · ${request.points} نقطة مقابل ${request.amount} ج.م · المرسل: ${escapeHTML(request.sender)} · ${request.createdAt}</span><span class="row"><button class="btn s" onclick="reviewRecharge(${request.id},true)">تأكيد وإضافة النقاط</button><button class="btn r s" onclick="reviewRecharge(${request.id},false)">رفض</button></span></div>`).join("") : '<div class="empty">مفيش تحويلات بانتظار التأكيد.</div>'}</div>
 <h2>مراجعة الكتب المرفوعة</h2><div class="card tw">${pend.length ? `<table><tr><th>الكتاب</th><th>المحافظة</th><th>المالك</th><th></th></tr>${pend.map((b) => `<tr><td>${b.img ? `<img src="${b.img}" alt="" style="height:48px;border-radius:6px;vertical-align:middle;margin-inline-end:8px">` : ""}${b.t}</td><td>${b.g}</td><td>${b.o === "me" ? "أنا" : b.o}</td><td class="row"><button class="btn s" onclick="mod(${b.id},1)">قبول</button><button class="btn r s" onclick="mod(${b.id},0)">رفض</button></td></tr>`).join("")}</table>` : '<div class="empty">مفيش كتب مستنية مراجعة.</div>'}</div>
 <h2>حل النزاعات</h2><div class="card">${dis.length ? dis.map((o) => `<div class="hist" style="flex-wrap:wrap;gap:8px"><span>طلب #${o.id} - ${bk(o.b).t}</span><span class="row"><button class="btn s" onclick="resolve(${o.id},'a')">رد النقاط للطالب</button><button class="btn o s" onclick="resolve(${o.id},'b')">إغلاق لصالح المالك</button></span></div>`).join("") : '<div class="empty">مفيش نزاعات مفتوحة. أي طلب فيه إبلاغ عن مشكلة هيظهر هنا.</div>'}</div>
 <h2>الكافيهات الشريكة</h2><div class="card tw"><table><tr><th>الكافيه</th><th>المحافظة</th><th>عمليات QR</th><th></th></tr>${S.cafes.map((c, i) => `<tr><td>${c.n}</td><td>${c.g}</td><td>${c.k}</td><td><button class="btn o s" onclick="S.cafes[${i}].k++;R.admin()">تسجيل مسح QR</button></td></tr>`).join("")}</table></div>`;
