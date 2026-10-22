@@ -1,194 +1,1589 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>بوك نوك</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0b0f19;--bg2:#020617;--card:#111827;--line:#1f2937;--tx:#e5e7eb;--mut:#94a3b8;--em:#10b981;--am:#f59e0b;--red:#f87171;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:400 16px/1.7 Tajawal,Tahoma,sans-serif;padding-bottom:72px}
-h1,h2,h3,h4,.cairo,button,.tab{font-family:Cairo,Tahoma,sans-serif}
-h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.25;margin:.2em 0;font-weight:800}h2{font-size:1.6rem;margin:1.6em 0 .6em}h3{margin:.2em 0}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(2,6,23,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar{max-width:1100px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 16px}
-.logo{font:800 1.4rem Cairo;color:var(--em);cursor:pointer}.logo span{color:var(--am)}
-nav.top{display:flex;gap:4px;margin-inline-start:auto}nav a{padding:6px 12px;border-radius:8px;color:var(--mut);cursor:pointer;font:600 .95rem Cairo}nav a.on,nav a:hover{color:var(--em);background:#10b9811a}
-.pts{background:#f59e0b1f;color:var(--am);border:1px solid #f59e0b55;border-radius:99px;padding:3px 12px;font:700 .9rem Cairo;cursor:pointer}
-nav.bot{display:none}
-main{max-width:1100px;margin:auto;padding:16px}
-.btn{background:var(--em);color:#022c22;border:0;border-radius:10px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:.95rem}.btn:hover{filter:brightness(1.1)}
-.btn.o{background:transparent;color:var(--tx);border:1px solid var(--line)}.btn.a{background:var(--am);color:#2b1a00}.btn.r{background:#7f1d1d;color:#fecaca}.btn.s{padding:5px 12px;font-size:.85rem}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-.hero{padding:34px 0 10px;display:grid;gap:18px}.hero p{color:var(--mut);max-width:560px;font-size:1.1rem}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:10px}
-.stat{border-inline-start:3px solid var(--em);padding:4px 12px}.stat b{display:block;font:800 1.9rem Cairo;color:var(--tx)}.stat small{color:var(--mut)}
-.cover{aspect-ratio:3/4;border-radius:10px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;border-inline-start:6px solid var(--am)}
-.cover b{font:800 1.15rem/1.3 Cairo}.cover small{opacity:.85}
-.tag{display:inline-block;font-size:.75rem;border:1px solid var(--line);border-radius:99px;padding:0 9px;color:var(--mut);margin:2px 0 2px 4px}.tag.e{color:var(--em);border-color:#10b98166}.tag.a{color:var(--am);border-color:#f59e0b66}
-.book{display:flex;flex-direction:column;gap:8px}.book .btn{margin-top:auto}
-.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
-input,select{background:var(--bg2);border:1px solid var(--line);color:var(--tx);border-radius:9px;padding:9px 10px;font:inherit;width:100%}input:focus,select:focus,button:focus-visible{outline:2px solid var(--em)}
-label{display:block;margin:10px 0 3px;color:var(--mut);font-size:.9rem}
-.steps{counter-reset:s}.steps .card{position:relative}.step-n{font:800 2rem Cairo;color:var(--am)}
-.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin:10px 0 14px;overflow-x:auto}.tab{padding:8px 14px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:0;border-inline:0}.tab.on{color:var(--em);border-color:var(--em)}
-.ov{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;z-index:50;padding:14px}.ov.on{display:flex}
-.modal{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;width:100%;max-width:480px;max-height:90vh;overflow:auto;animation:pop .18s ease}@keyframes pop{from{transform:scale(.96);opacity:0}}
-.opt{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px 12px;margin:6px 0;cursor:pointer}.opt input{width:auto}.opt:has(input:checked){border-color:var(--em);background:#10b9811a}
-.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--em);color:#022c22;padding:10px 20px;border-radius:99px;font-weight:700;z-index:99;display:none}
-table{width:100%;border-collapse:collapse}th,td{text-align:start;padding:9px 6px;border-bottom:1px solid var(--line);font-size:.92rem}th{color:var(--mut);font-weight:500}
-.tw{overflow-x:auto}
-.hist{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}.plus{color:var(--em);font-weight:700}.minus{color:var(--red);font-weight:700}
-.big{font:800 3rem Cairo;color:var(--am)}
-.st{font-size:.8rem;border-radius:99px;padding:1px 10px}.st.pending{background:#f59e0b22;color:var(--am)}.st.ongoing{background:#3b82f622;color:#93c5fd}.st.done{background:#10b98122;color:var(--em)}.st.disputed{background:#f8717122;color:var(--red)}
-.empty{color:var(--mut);text-align:center;padding:30px}
-.bmc{display:grid;grid-template-columns:repeat(10,1fr);gap:8px}.bmc .card{grid-column:span 2;font-size:.88rem}.bmc .w2{grid-column:span 4}.bmc .w5{grid-column:span 5}
-ul.l{margin:6px 0;padding-inline-start:18px;color:var(--mut)}
-@keyframes up{from{opacity:0;transform:translateY(14px)}}@keyframes fl{to{transform:translateY(-12px) rotate(2deg)}}@keyframes bump{40%{transform:scale(1.25);box-shadow:0 0 0 6px #f59e0b33}}@keyframes scn{from{top:-20%}to{top:110%}}@keyframes fade{from{opacity:0}}@keyframes tin{from{opacity:0;transform:translate(-50%,20px)}}@keyframes glow{50%{opacity:.55}}
-#app>*{animation:up .45s both}.grid>.card{animation:up .5s both;animation-delay:calc(var(--i,0)*55ms)}
-.card,.cover,.btn{transition:transform .2s,border-color .2s,filter .2s}.book:hover{transform:translateY(-5px);border-color:#10b98188}.book:hover .cover{transform:rotate(-2deg) scale(1.03)}.btn:active{transform:scale(.95)}
-.float{display:flex;gap:14px;padding-top:6px}.fb{width:84px;animation:fl 3.2s ease-in-out infinite alternate}.fb:nth-child(2){animation-delay:.5s;margin-top:18px}.fb:nth-child(3){animation-delay:1s}
-.hero{position:relative}.hero::before{content:"";position:absolute;top:-20px;left:-40px;width:260px;height:260px;background:radial-gradient(#10b98133,transparent 70%);animation:glow 4s infinite;pointer-events:none;z-index:-1}
-.bump{animation:bump .5s}.scan{position:relative;overflow:hidden;border-radius:10px}.scan::after{content:"";position:absolute;inset-inline:0;height:18%;background:linear-gradient(transparent,#10b981aa,transparent);animation:scn 1s linear infinite}
-.ov.on{animation:fade .2s}.toast{animation:tin .25s}.st.ongoing{animation:glow 2s infinite}.step-n{display:inline-block;transition:transform .3s}.steps .card:hover .step-n{transform:scale(1.25) rotate(-6deg)}
-@media(max-width:760px){nav.top{display:none}.pts{margin-inline-start:auto}
-nav.bot{display:flex;position:fixed;bottom:0;inset-inline:0;background:var(--bg2);border-top:1px solid var(--line);z-index:30;padding-bottom:env(safe-area-inset-bottom,0px)}
-nav.bot a{flex:1;text-align:center;padding:10px 2px;font:600 .72rem Cairo;color:var(--mut)}nav.bot a.on{color:var(--em)}
-.bmc{display:block}.bmc .card{margin-bottom:8px}}
-@media print{header,nav.bot,.tabs,.noprint{display:none}body{background:#fff;color:#000}.card{border-color:#999;background:#fff;color:#000}ul.l,.stat small{color:#333}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important}}
-</style></head><body>
-<header><div class="bar"><div class="logo" onclick="go('home')">بوك <span>نوك</span></div>
-<nav class="top" id="nt"></nav><div class="pts" id="pb" onclick="go('wallet')"></div></div></header>
-<main id="app"></main><nav class="bot" id="nb"></nav>
-<div class="ov" id="ov"><div class="modal" id="md"></div></div><div class="toast" id="ts"></div>
-<script>
-const $=s=>document.querySelector(s);
-const GOV=['القاهرة','الإسكندرية','الجيزة','المنصورة'],CAT=['روايات','تنمية ذاتية','تاريخ','علوم','أدب مترجم'],CON=['جديد','كالجديد','حالة جيدة','طبعة قديمة'];
-const PAGES={home:'الرئيسية',market:'المكتبة',orders:'طلباتي',wallet:'المحفظة',admin:'الإدارة',strategy:'الاستراتيجية'};
-const S={pts:300,nid:40,
-books:[
-{id:1,t:'عزازيل',a:'يوسف زيدان',g:'القاهرة',c:'روايات',n:'كالجديد',x:'direct',p:60,o:'منى',h:160,s:'ok'},
-{id:2,t:'الأب الغني والأب الفقير',a:'روبرت كيوساكي',g:'الجيزة',c:'تنمية ذاتية',n:'حالة جيدة',x:'points',p:40,o:'كريم',h:35,s:'ok'},
-{id:3,t:'الخيميائي',a:'باولو كويلو',g:'الإسكندرية',c:'أدب مترجم',n:'جديد',x:'points',p:50,o:'نورا',h:270,s:'ok'},
-{id:4,t:'موسم الهجرة إلى الشمال',a:'الطيب صالح',g:'المنصورة',c:'روايات',n:'طبعة قديمة',x:'direct',p:35,o:'هاني',h:15,s:'ok'},
-{id:5,t:'موجز تاريخ الزمان',a:'ستيفن هوكينج',g:'القاهرة',c:'علوم',n:'كالجديد',x:'points',p:70,o:'سارة',h:210,s:'ok'},
-{id:6,t:'مقدمة ابن خلدون',a:'عبد الرحمن بن خلدون',g:'الإسكندرية',c:'تاريخ',n:'طبعة قديمة',x:'direct',p:45,o:'عمر',h:50,s:'ok'},
-{id:7,t:'1984',a:'جورج أورويل',g:'الجيزة',c:'أدب مترجم',n:'حالة جيدة',x:'direct',p:50,o:'ليلى',h:0,s:'ok'},
-{id:8,t:'العادات الذرية',a:'جيمس كلير',g:'المنصورة',c:'تنمية ذاتية',n:'جديد',x:'points',p:65,o:'ياسر',h:140,s:'ok'},
-{id:9,t:'ساق البامبو',a:'سعود السنعوسي',g:'القاهرة',c:'روايات',n:'حالة جيدة',x:'direct',p:55,o:'me',h:190,s:'ok'},
-{id:10,t:'قصة الحضارة',a:'ول ديورانت',g:'الجيزة',c:'تاريخ',n:'كالجديد',x:'direct',p:60,o:'me',h:30,s:'ok'},
-{id:11,t:'الكون في قشرة جوزة',a:'ستيفن هوكينج',g:'القاهرة',c:'علوم',n:'حالة جيدة',x:'points',p:50,o:'me',h:240,s:'pending'},
-{id:12,t:'ثلاثية غرناطة',a:'رضوى عاشور',g:'الجيزة',c:'روايات',n:'كالجديد',x:'direct',p:55,o:'دينا',h:320,s:'pending'},
-{id:13,t:'رجال في الشمس',a:'غسان كنفاني',g:'القاهرة',c:'روايات',n:'حالة جيدة',x:'direct',p:40,o:'آية',h:25,s:'ok'},
-{id:14,t:'يوتوبيا',a:'أحمد خالد توفيق',g:'الجيزة',c:'روايات',n:'كالجديد',x:'points',p:55,o:'مصطفى',h:100,s:'ok'},
-{id:15,t:'سابينز: تاريخ موجز للجنس البشري',a:'يوفال نوح هراري',g:'الإسكندرية',c:'تاريخ',n:'جديد',x:'points',p:75,o:'ندى',h:200,s:'ok'},
-{id:16,t:'فن اللامبالاة',a:'مارك مانسون',g:'المنصورة',c:'تنمية ذاتية',n:'حالة جيدة',x:'points',p:45,o:'أحمد',h:290,s:'ok'},
-{id:17,t:'الجريمة والعقاب',a:'فيودور دوستويفسكي',g:'القاهرة',c:'أدب مترجم',n:'طبعة قديمة',x:'direct',p:50,o:'رنا',h:345,s:'ok'},
-{id:18,t:'الأسود يليق بك',a:'أحلام مستغانمي',g:'الإسكندرية',c:'روايات',n:'كالجديد',x:'direct',p:50,o:'هبة',h:330,s:'ok'},
-{id:19,t:'جريمة في قطار الشرق السريع',a:'أجاثا كريستي',g:'الجيزة',c:'أدب مترجم',n:'حالة جيدة',x:'points',p:45,o:'طارق',h:75,s:'ok'},
-{id:20,t:'الكون الأنيق',a:'براين غرين',g:'المنصورة',c:'علوم',n:'كالجديد',x:'points',p:70,o:'شريف',h:225,s:'ok'}],
-orders:[
-{id:11,b:3,m:'pts',d:'cafe',st:'ongoing',me:false,ot:false,cafe:'كافيه ديوان - الزمالك'},
-{id:12,b:1,m:'book',off:9,d:'door',pay:'cod',st:'pending',me:false,ot:false},
-{id:13,b:6,m:'pts',d:'cafe',st:'done',me:true,ot:true,cafe:'كافيه ريڤولفر - المعادي'}],
-hist:[{t:'رصيد ترحيبي',v:300},{t:'شراء: الأب الغني والأب الفقير',v:-40},{t:'إهداء: مقدمة ابن خلدون',v:40}],
-rec:[{o:13,a:25,w:'ادفع الآن - فوري',s:'مدفوع'}],
-cafes:[{n:'كافيه ديوان - الزمالك',g:'القاهرة',k:42},{n:'كافيه ريڤولفر - المعادي',g:'القاهرة',k:31},{n:'كافيه الشاطبي',g:'الإسكندرية',k:18},{n:'كافيه المحطة',g:'المنصورة',k:9}],
-F:{},page:'home',tab:'pending',stab:'vpc',users:1284,swaps:356};
-const ps=()=>S.books.find(b=>b.o==='me');
-const bk=id=>S.books.find(b=>b.id===id),mine=()=>S.books.filter(b=>b.o==='me');
-const CN={pending:'قيد الانتظار',ongoing:'جارية',done:'مكتملة',disputed:'نزاع'};
-function toast(m){const t=$('#ts');t.textContent=m;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',2600)}
-function modal(h){$('#md').innerHTML=h;$('#ov').classList.add('on')}
-function closeM(){$('#ov').classList.remove('on')}
-$('#ov').onclick=e=>{if(e.target.id==='ov')closeM()};
-document.onkeydown=e=>{if(e.key==='Escape')closeM()};
-function cover(b){if(b.img)return `<div class="cover" style="background:url(${b.img}) center/cover"></div>`;return `<div class="cover" style="background:linear-gradient(160deg,hsl(${b.h} 50% 30%),hsl(${(b.h+50)%360} 55% 12%))"><small>${b.a}</small><b>${b.t}</b><small>بوك نوك</small></div>`}
-function bcard(b,btn=true){return `<div class="card book">${cover(b)}<div><b class="cairo">${b.t}</b><div style="color:var(--mut);font-size:.88rem">${b.a}</div>
-<span class="tag e">${b.g}</span><span class="tag a">${b.n}</span><span class="tag">${b.x==='direct'?'تبادل مباشر':b.p+' نقطة'}</span>${b.o==='me'?'<span class="tag e">كتابك</span>':''}</div>${btn?`<button class="btn" onclick="propose(${b.id})">اطلب الكتاب</button>`:''}</div>`}
-function nav(){const h=Object.keys(PAGES).map(k=>`<a class="${S.page===k?'on':''}" onclick="go('${k}')">${PAGES[k]}</a>`).join('');$('#nt').innerHTML=h;$('#nb').innerHTML=h;const pb=$('#pb'),t=S.pts+' نقطة قراءة';if(pb.textContent&&pb.textContent!==t){pb.classList.remove('bump');void pb.offsetWidth;pb.classList.add('bump')}pb.textContent=t}
-function stag(){document.querySelectorAll('.grid>.card').forEach((c,i)=>c.style.setProperty('--i',Math.min(i,12)))}
-function go(p){S.page=p;nav();R[p]();stag();scrollTo(0,0)}
-function count(el,to){let n=0;const st=Math.max(1,Math.round(to/40));const i=setInterval(()=>{n=Math.min(to,n+st);el.textContent=n.toLocaleString('ar-EG');if(n>=to)clearInterval(i)},30)}
-const R={
-home(){const ok=S.books.filter(b=>b.s==='ok');
-$('#app').innerHTML=`<section class="hero"><div class="float">${ok.slice(0,3).map(b=>`<div class="fb">${cover(b)}</div>`).join('')}</div><h1>كتبك المركونة هي تذكرتك لقراءة كتب جديدة</h1>
-<p>سيب الكتب اللي خلصتها تلف على قراء تانيين في مصر. اعرض كتابك واكسب 30 نقطة قراءة، واطلب كتاب جديد بنقاطك أو بكتاب بدل كتاب.</p>
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>بوك نوك</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=Tajawal:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      try {
+        if (localStorage.getItem("booknook-theme") === "dark")
+          document.documentElement.dataset.theme = "dark";
+      } catch {}
+    </script>
+    <style>
+      :root {
+        --bg: #f4f0e7;
+        --bg2: #fffdf8;
+        --card: #fffdf8;
+        --header-bg: rgba(255, 253, 248, 0.92);
+        --bottom-bg: rgba(255, 253, 248, 0.97);
+        --line: #e4ddd0;
+        --tx: #18352f;
+        --mut: #65756e;
+        --em: #176b52;
+        --am: #d56b42;
+        --red: #b94a43;
+        --pts-bg: #f8e8d8;
+        --pts-line: #e8c5a9;
+        --pts-text: #9f4c2f;
+        --float-bg: #e5e9db;
+        --float-line: #d4ddce;
+        --ambient: #e7eee3;
+        color-scheme: light;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      :root[data-theme="dark"] {
+        --bg: #111b19;
+        --bg2: #192622;
+        --card: #1d2d28;
+        --header-bg: rgba(25, 38, 34, 0.94);
+        --bottom-bg: rgba(25, 38, 34, 0.98);
+        --line: #354840;
+        --tx: #e8eee9;
+        --mut: #a4b2aa;
+        --em: #75cba2;
+        --am: #e4a078;
+        --red: #f18a80;
+        --pts-bg: #3a2e24;
+        --pts-line: #6d5039;
+        --pts-text: #f0bb8f;
+        --float-bg: #263a32;
+        --float-line: #3d5749;
+        --ambient: #172721;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 15% 0%, var(--ambient) 0, transparent 34rem),
+          var(--bg);
+        color: var(--tx);
+        font:
+          400 16px/1.7 Tajawal,
+          Tahoma,
+          sans-serif;
+        padding-bottom: 72px;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      .cairo,
+      button,
+      .tab {
+        font-family: Cairo, Tahoma, sans-serif;
+      }
+      h1 {
+        font-size: 3.1rem;
+        line-height: 1.25;
+        margin: 0.2em 0;
+        font-weight: 800;
+      }
+      h2 {
+        font-size: 1.6rem;
+        margin: 1.6em 0 0.6em;
+        color: var(--em);
+      }
+      main > h2 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      main > h2::before {
+        content: "";
+        width: 4px;
+        height: 1.15em;
+        border-radius: 4px;
+        background: var(--am);
+      }
+      h3 {
+        margin: 0.2em 0;
+      }
+      header {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 20;
+        background: var(--header-bg);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .bar {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 20px;
+      }
+      .logo {
+        font: 800 1.5rem Cairo;
+        color: var(--em);
+        cursor: pointer;
+      }
+      .logo span {
+        color: var(--am);
+      }
+      nav.top {
+        display: flex;
+        gap: 4px;
+        margin-inline-start: auto;
+      }
+      nav a {
+        padding: 6px 12px;
+        border-radius: 8px;
+        color: var(--mut);
+        cursor: pointer;
+        font: 600 0.95rem Cairo;
+      }
+      nav a.on,
+      nav a:hover {
+        color: var(--em);
+        background: #10b9811a;
+      }
+      .pts {
+        background: var(--pts-bg);
+        color: var(--pts-text);
+        border: 1px solid var(--pts-line);
+        border-radius: 99px;
+        padding: 3px 12px;
+        font: 700 0.9rem Cairo;
+        cursor: pointer;
+      }
+      .theme-toggle {
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--bg2);
+        color: var(--tx);
+        font: 700 1.3rem/1 Cairo, Tahoma, sans-serif;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .theme-toggle:hover {
+        border-color: var(--em);
+        transform: translateY(-1px);
+      }
+      nav.bot {
+        display: none;
+      }
+      main {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+      }
+      .btn {
+        background: var(--em);
+        color: #fffdf8;
+        border: 0;
+        border-radius: 7px;
+        padding: 11px 20px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+      .btn:hover {
+        filter: brightness(1.1);
+      }
+      .btn.o {
+        background: transparent;
+        color: var(--tx);
+        border: 1px solid var(--line);
+      }
+      .btn.a {
+        background: var(--am);
+        color: white;
+      }
+      .btn.r {
+        background: #7f1d1d;
+        color: #fecaca;
+      }
+      .btn.s {
+        padding: 5px 12px;
+        font-size: 0.85rem;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+        box-shadow: 0 5px 18px #324d3c08;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 14px;
+      }
+      .g3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 14px;
+      }
+      .hero {
+        padding: 44px 4px 30px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        align-items: center;
+        column-gap: clamp(24px, 6vw, 78px);
+        row-gap: 14px;
+      }
+      .hero-copy {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--em);
+        font: 700 0.88rem Cairo;
+        margin-bottom: 8px;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 24px;
+        height: 2px;
+        background: var(--am);
+      }
+      .hero p {
+        color: var(--mut);
+        max-width: 520px;
+        font-size: 1.08rem;
+        line-height: 1.9;
+        margin: 12px 0 22px;
+      }
+      .hero .float {
+        grid-column: 2;
+        grid-row: 1;
+        min-height: 300px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        isolation: isolate;
+      }
+      .hero .float::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        width: min(84%, 330px);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: var(--float-bg);
+        border: 1px solid var(--float-line);
+      }
+      .hero .fb {
+        width: clamp(82px, 10vw, 118px);
+        filter: drop-shadow(0 16px 12px #17382c24);
+      }
+      .hero .fb:nth-child(2) {
+        margin-top: 34px;
+      }
+      .hero .cover {
+        border-radius: 4px 9px 9px 4px;
+        border-inline-start-width: 4px;
+        box-shadow: inset 5px 0 9px #0002;
+      }
+      .hero .row {
+        grid-column: 1;
+        grid-row: 2;
+      }
+      .hero .stats {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        border-top: 1px solid var(--line);
+        padding-top: 20px;
+        margin-top: 20px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .stat {
+        border-inline-start: 2px solid #d6a17d;
+        padding: 4px 12px;
+      }
+      .stat b {
+        display: block;
+        font: 800 1.9rem Cairo;
+        color: var(--em);
+      }
+      .stat small {
+        color: var(--mut);
+      }
+      .cover {
+        aspect-ratio: 3/4;
+        border-radius: 5px 9px 9px 5px;
+        padding: 14px;
+        color: #fffdf8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+        border-inline-start: 4px solid #dca46e;
+      }
+      .cover b {
+        font: 800 1.15rem/1.3 Cairo;
+        text-shadow: 0 1px 8px #0005;
+      }
+      .cover small {
+        opacity: 0.85;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        border: 1px solid var(--line);
+        border-radius: 99px;
+        padding: 0 9px;
+        color: var(--mut);
+        margin: 2px 0 2px 4px;
+      }
+      .tag.e {
+        color: var(--em);
+        border-color: #10b98166;
+      }
+      .tag.a {
+        color: var(--am);
+        border-color: #f59e0b66;
+      }
+      .book {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-shadow: 0 7px 22px #324d3c0b;
+      }
+      .book .btn {
+        margin-top: auto;
+      }
+      .filters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        margin: 12px 0;
+      }
+      input,
+      select {
+        background: var(--bg2);
+        border: 1px solid var(--line);
+        color: var(--tx);
+        border-radius: 9px;
+        padding: 9px 10px;
+        font: inherit;
+        width: 100%;
+      }
+      input:focus,
+      select:focus,
+      button:focus-visible {
+        outline: 2px solid var(--em);
+      }
+      label {
+        display: block;
+        margin: 10px 0 3px;
+        color: var(--mut);
+        font-size: 0.9rem;
+      }
+      .steps {
+        counter-reset: s;
+      }
+      .steps .card {
+        position: relative;
+      }
+      .step-n {
+        font: 800 2rem Cairo;
+        color: var(--am);
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        border-bottom: 1px solid var(--line);
+        margin: 10px 0 14px;
+        overflow-x: auto;
+      }
+      .tab {
+        padding: 8px 14px;
+        cursor: pointer;
+        color: var(--mut);
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+        background: none;
+        border-top: 0;
+        border-inline: 0;
+      }
+      .tab.on {
+        color: var(--em);
+        border-color: var(--em);
+      }
+      .ov {
+        position: fixed;
+        inset: 0;
+        background: #000a;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        padding: 14px;
+      }
+      .ov.on {
+        display: flex;
+      }
+      .modal {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px;
+        width: 100%;
+        max-width: 480px;
+        max-height: 90vh;
+        overflow: auto;
+        animation: pop 0.18s ease;
+      }
+      @keyframes pop {
+        from {
+          transform: scale(0.96);
+          opacity: 0;
+        }
+      }
+      .opt {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 9px 12px;
+        margin: 6px 0;
+        cursor: pointer;
+      }
+      .opt input {
+        width: auto;
+      }
+      .opt:has(input:checked) {
+        border-color: var(--em);
+        background: #10b9811a;
+      }
+      .toast {
+        position: fixed;
+        bottom: 84px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--em);
+        color: #022c22;
+        padding: 10px 20px;
+        border-radius: 99px;
+        font-weight: 700;
+        z-index: 99;
+        display: none;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: start;
+        padding: 9px 6px;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.92rem;
+      }
+      th {
+        color: var(--mut);
+        font-weight: 500;
+      }
+      .tw {
+        overflow-x: auto;
+      }
+      .hist {
+        display: flex;
+        justify-content: space-between;
+        padding: 9px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .plus {
+        color: var(--em);
+        font-weight: 700;
+      }
+      .minus {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .big {
+        font: 800 3rem Cairo;
+        color: var(--am);
+      }
+      .st {
+        font-size: 0.8rem;
+        border-radius: 99px;
+        padding: 1px 10px;
+      }
+      .st.pending {
+        background: #f59e0b22;
+        color: var(--am);
+      }
+      .st.ongoing {
+        background: #3b82f622;
+        color: #93c5fd;
+      }
+      .st.done {
+        background: #10b98122;
+        color: var(--em);
+      }
+      .st.disputed {
+        background: #f8717122;
+        color: var(--red);
+      }
+      .empty {
+        color: var(--mut);
+        text-align: center;
+        padding: 30px;
+      }
+      .bmc {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 8px;
+      }
+      .bmc .card {
+        grid-column: span 2;
+        font-size: 0.88rem;
+      }
+      .bmc .w2 {
+        grid-column: span 4;
+      }
+      .bmc .w5 {
+        grid-column: span 5;
+      }
+      ul.l {
+        margin: 6px 0;
+        padding-inline-start: 18px;
+        color: var(--mut);
+      }
+      @keyframes up {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+      }
+      @keyframes fl {
+        to {
+          transform: translateY(-12px) rotate(2deg);
+        }
+      }
+      @keyframes bump {
+        40% {
+          transform: scale(1.25);
+          box-shadow: 0 0 0 6px #f59e0b33;
+        }
+      }
+      @keyframes scn {
+        from {
+          top: -20%;
+        }
+        to {
+          top: 110%;
+        }
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+      }
+      @keyframes tin {
+        from {
+          opacity: 0;
+          transform: translate(-50%, 20px);
+        }
+      }
+      @keyframes glow {
+        50% {
+          opacity: 0.55;
+        }
+      }
+      #app > * {
+        animation: up 0.45s both;
+      }
+      .grid > .card {
+        animation: up 0.5s both;
+        animation-delay: calc(var(--i, 0) * 55ms);
+      }
+      .card,
+      .cover,
+      .btn {
+        transition:
+          transform 0.2s,
+          border-color 0.2s,
+          filter 0.2s;
+      }
+      .book:hover {
+        transform: translateY(-4px);
+        border-color: #176b5266;
+      }
+      .book:hover .cover {
+        transform: rotate(-2deg) scale(1.03);
+      }
+      .btn:active {
+        transform: scale(0.95);
+      }
+      .float {
+        display: flex;
+        gap: 14px;
+        padding-top: 6px;
+      }
+      .fb {
+        width: 84px;
+        animation: fl 3.2s ease-in-out infinite alternate;
+      }
+      .fb:nth-child(2) {
+        animation-delay: 0.5s;
+        margin-top: 18px;
+      }
+      .fb:nth-child(3) {
+        animation-delay: 1s;
+      }
+      .hero {
+        position: relative;
+      }
+      .bump {
+        animation: bump 0.5s;
+      }
+      .scan {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+      .scan::after {
+        content: "";
+        position: absolute;
+        inset-inline: 0;
+        height: 18%;
+        background: linear-gradient(transparent, #10b981aa, transparent);
+        animation: scn 1s linear infinite;
+      }
+      .ov.on {
+        animation: fade 0.2s;
+      }
+      .toast {
+        animation: tin 0.25s;
+      }
+      .st.ongoing {
+        animation: glow 2s infinite;
+      }
+      .step-n {
+        display: inline-block;
+        transition: transform 0.3s;
+      }
+      .steps .card:hover .step-n {
+        transform: scale(1.25) rotate(-6deg);
+      }
+      @media (max-width: 760px) {
+        main {
+          padding: 12px 16px 24px;
+        }
+        .hero {
+          padding-top: 24px;
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .hero-copy,
+        .hero .row,
+        .hero .float,
+        .hero .stats {
+          grid-column: 1;
+          grid-row: auto;
+        }
+        .hero .float {
+          grid-row: 1;
+          min-height: 170px;
+          margin-bottom: 8px;
+        }
+        .hero .fb {
+          width: 76px;
+        }
+        .hero .stats {
+          margin-top: 18px;
+        }
+        .hero h1 {
+          font-size: 1.85rem;
+          margin: 0.15em 0;
+        }
+        .hero-copy p {
+          font-size: 1rem;
+          line-height: 1.75;
+          margin: 8px 0 14px;
+        }
+        .hero .row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .hero .row .btn {
+          width: 100%;
+        }
+        .hero .stats {
+          margin-top: 12px;
+          padding-top: 14px;
+        }
+        nav.top {
+          display: none;
+        }
+        .pts {
+          margin-inline-start: auto;
+        }
+        nav.bot {
+          display: flex;
+          position: fixed;
+          bottom: 0;
+          inset-inline: 0;
+          background: var(--bottom-bg);
+          border-top: 1px solid var(--line);
+          z-index: 30;
+          padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        nav.bot a {
+          flex: 1;
+          text-align: center;
+          padding: 10px 2px;
+          font: 600 0.72rem Cairo;
+          color: var(--mut);
+        }
+        nav.bot a.on {
+          color: var(--em);
+        }
+        .bmc {
+          display: block;
+        }
+        .bmc .card {
+          margin-bottom: 8px;
+        }
+      }
+      @media print {
+        header,
+        nav.bot,
+        .tabs,
+        .noprint {
+          display: none;
+        }
+        body {
+          background: #fff;
+          color: #000;
+        }
+        .card {
+          border-color: #999;
+          background: #fff;
+          color: #000;
+        }
+        ul.l,
+        .stat small {
+          color: #333;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="bar">
+        <div class="logo" onclick="go('home')">بوك <span>نوك</span></div>
+        <nav class="top" id="nt"></nav>
+        <div class="pts" id="pb" onclick="go('wallet')"></div>
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="تفعيل الوضع الليلي"
+          aria-pressed="false"
+          title="تفعيل الوضع الليلي"
+          onclick="toggleTheme()"
+        >☾</button>
+      </div>
+    </header>
+    <main id="app"></main>
+    <nav class="bot" id="nb"></nav>
+    <div class="ov" id="ov"><div class="modal" id="md"></div></div>
+    <div class="toast" id="ts"></div>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      function applyTheme(dark) {
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+        const toggle = $("#themeToggle");
+        toggle.setAttribute("aria-pressed", String(dark));
+        toggle.setAttribute(
+          "aria-label",
+          dark ? "تفعيل الوضع النهاري" : "تفعيل الوضع الليلي",
+        );
+        toggle.title = dark ? "تفعيل الوضع النهاري" : "تفعيل الوضع الليلي";
+        toggle.textContent = dark ? "☀" : "☾";
+      }
+      function toggleTheme() {
+        const dark = document.documentElement.dataset.theme !== "dark";
+        applyTheme(dark);
+        try {
+          localStorage.setItem("booknook-theme", dark ? "dark" : "light");
+        } catch {}
+      }
+      applyTheme(document.documentElement.dataset.theme === "dark");
+      const GOV = ["القاهرة", "الإسكندرية", "الجيزة", "المنصورة"],
+        CAT = ["روايات", "تنمية ذاتية", "تاريخ", "علوم", "أدب مترجم"],
+        CON = ["جديد", "كالجديد", "حالة جيدة", "طبعة قديمة"];
+      const PAGES = {
+        home: "الرئيسية",
+        market: "المكتبة",
+        orders: "طلباتي",
+        wallet: "المحفظة",
+        admin: "الإدارة",
+        strategy: "الاستراتيجية",
+      };
+      const S = {
+        pts: 300,
+        nid: 40,
+        books: [
+          {
+            id: 1,
+            t: "الأمير الصغير",
+            a: "أنطوان دو سانت إكزوبيري",
+            g: "القاهرة",
+            c: "أدب مترجم",
+            n: "كالجديد",
+            x: "direct",
+            p: 60,
+            o: "منى",
+            h: 160,
+            img: "https://covers.openlibrary.org/b/isbn/9780156012195-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 2,
+            t: "الأب الغني والأب الفقير",
+            a: "روبرت كيوساكي",
+            g: "الجيزة",
+            c: "تنمية ذاتية",
+            n: "حالة جيدة",
+            x: "points",
+            p: 40,
+            o: "كريم",
+            h: 35,
+            img: "https://covers.openlibrary.org/b/isbn/9781612680194-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 3,
+            t: "الخيميائي",
+            a: "باولو كويلو",
+            g: "الإسكندرية",
+            c: "أدب مترجم",
+            n: "جديد",
+            x: "points",
+            p: 50,
+            o: "نورا",
+            h: 270,
+            img: "https://covers.openlibrary.org/b/isbn/9780061122415-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 4,
+            t: "كبرياء وهوى",
+            a: "جين أوستن",
+            g: "المنصورة",
+            c: "أدب مترجم",
+            n: "طبعة قديمة",
+            x: "direct",
+            p: 35,
+            o: "هاني",
+            h: 15,
+            img: "https://covers.openlibrary.org/b/isbn/9780141439518-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 5,
+            t: "موجز تاريخ الزمان",
+            a: "ستيفن هوكينج",
+            g: "القاهرة",
+            c: "علوم",
+            n: "كالجديد",
+            x: "points",
+            p: 70,
+            o: "سارة",
+            h: 210,
+            img: "https://covers.openlibrary.org/b/isbn/9780553380163-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 6,
+            t: "يوميات آن فرانك",
+            a: "آن فرانك",
+            g: "الإسكندرية",
+            c: "تاريخ",
+            n: "طبعة قديمة",
+            x: "direct",
+            p: 45,
+            o: "عمر",
+            h: 50,
+            img: "https://covers.openlibrary.org/b/isbn/9780553296983-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 7,
+            t: "1984",
+            a: "جورج أورويل",
+            g: "الجيزة",
+            c: "أدب مترجم",
+            n: "حالة جيدة",
+            x: "direct",
+            p: 50,
+            o: "ليلى",
+            h: 0,
+            img: "https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 8,
+            t: "العادات الذرية",
+            a: "جيمس كلير",
+            g: "المنصورة",
+            c: "تنمية ذاتية",
+            n: "جديد",
+            x: "points",
+            p: 65,
+            o: "ياسر",
+            h: 140,
+            img: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 9,
+            t: "عداء الطائرة الورقية",
+            a: "خالد حسيني",
+            g: "القاهرة",
+            c: "أدب مترجم",
+            n: "حالة جيدة",
+            x: "direct",
+            p: 55,
+            o: "me",
+            h: 190,
+            img: "https://covers.openlibrary.org/b/isbn/9781594631931-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 10,
+            t: "شيفرة دافنشي",
+            a: "دان براون",
+            g: "الجيزة",
+            c: "أدب مترجم",
+            n: "كالجديد",
+            x: "direct",
+            p: 60,
+            o: "me",
+            h: 30,
+            img: "https://covers.openlibrary.org/b/isbn/9780307474278-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 11,
+            t: "المريخي",
+            a: "آندي وير",
+            g: "القاهرة",
+            c: "أدب مترجم",
+            n: "حالة جيدة",
+            x: "points",
+            p: 50,
+            o: "me",
+            h: 240,
+            img: "https://covers.openlibrary.org/b/isbn/9780553418026-L.jpg",
+            s: "pending",
+          },
+          {
+            id: 12,
+            t: "الأزواج السبعة لإيفلين هوغو",
+            a: "تايلور جينكينز ريد",
+            g: "الجيزة",
+            c: "أدب مترجم",
+            n: "كالجديد",
+            x: "direct",
+            p: 55,
+            o: "دينا",
+            h: 320,
+            img: "https://covers.openlibrary.org/b/isbn/9781501161933-L.jpg",
+            s: "pending",
+          },
+          {
+            id: 13,
+            t: "أن تقتل طائراً بريئاً",
+            a: "هاربر لي",
+            g: "القاهرة",
+            c: "أدب مترجم",
+            n: "حالة جيدة",
+            x: "direct",
+            p: 40,
+            o: "آية",
+            h: 25,
+            img: "https://covers.openlibrary.org/b/isbn/9780061120084-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 14,
+            t: "مباريات الجوع",
+            a: "سوزان كولنز",
+            g: "الجيزة",
+            c: "أدب مترجم",
+            n: "كالجديد",
+            x: "points",
+            p: 55,
+            o: "مصطفى",
+            h: 100,
+            img: "https://covers.openlibrary.org/b/isbn/9780439023481-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 15,
+            t: "كيف تكسب الأصدقاء وتؤثر في الناس",
+            a: "ديل كارنيجي",
+            g: "الإسكندرية",
+            c: "تنمية ذاتية",
+            n: "جديد",
+            x: "points",
+            p: 75,
+            o: "ندى",
+            h: 200,
+            img: "https://covers.openlibrary.org/b/isbn/9780671027032-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 16,
+            t: "قوة العادة",
+            a: "تشارلز دويج",
+            g: "المنصورة",
+            c: "تنمية ذاتية",
+            n: "حالة جيدة",
+            x: "points",
+            p: 45,
+            o: "أحمد",
+            h: 290,
+            img: "https://covers.openlibrary.org/b/isbn/9780812981605-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 17,
+            t: "الجريمة والعقاب",
+            a: "فيودور دوستويفسكي",
+            g: "القاهرة",
+            c: "أدب مترجم",
+            n: "طبعة قديمة",
+            x: "direct",
+            p: 50,
+            o: "رنا",
+            h: 345,
+            img: "https://covers.openlibrary.org/b/isbn/9780143107637-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 18,
+            t: "هاري بوتر وحجر الفيلسوف",
+            a: "ج. ك. رولينغ",
+            g: "الإسكندرية",
+            c: "أدب مترجم",
+            n: "كالجديد",
+            x: "direct",
+            p: 50,
+            o: "هبة",
+            h: 330,
+            img: "https://covers.openlibrary.org/b/isbn/9780590353427-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 19,
+            t: "الهوبيت",
+            a: "ج. ر. ر. تولكين",
+            g: "الجيزة",
+            c: "أدب مترجم",
+            n: "حالة جيدة",
+            x: "points",
+            p: 45,
+            o: "طارق",
+            h: 75,
+            img: "https://covers.openlibrary.org/b/isbn/9780547928227-L.jpg",
+            s: "ok",
+          },
+          {
+            id: 20,
+            t: "الكون الأنيق",
+            a: "براين غرين",
+            g: "المنصورة",
+            c: "علوم",
+            n: "كالجديد",
+            x: "points",
+            p: 70,
+            o: "شريف",
+            h: 225,
+            img: "https://covers.openlibrary.org/b/isbn/9780393338102-L.jpg",
+            s: "ok",
+          },
+        ],
+        orders: [
+          {
+            id: 11,
+            b: 3,
+            m: "pts",
+            d: "cafe",
+            st: "ongoing",
+            me: false,
+            ot: false,
+            cafe: "كافيه ديوان - الزمالك",
+          },
+          {
+            id: 12,
+            b: 1,
+            m: "book",
+            off: 9,
+            d: "door",
+            pay: "cod",
+            st: "pending",
+            me: false,
+            ot: false,
+          },
+          {
+            id: 13,
+            b: 6,
+            m: "pts",
+            d: "cafe",
+            st: "done",
+            me: true,
+            ot: true,
+            cafe: "كافيه ريڤولفر - المعادي",
+          },
+        ],
+        hist: [
+          { t: "رصيد ترحيبي", v: 300 },
+          { t: "شراء: الأب الغني والأب الفقير", v: -40 },
+          { t: "إهداء: مقدمة ابن خلدون", v: 40 },
+        ],
+        rec: [{ o: 13, a: 25, w: "ادفع الآن - فوري", s: "مدفوع" }],
+        cafes: [
+          { n: "كافيه ديوان - الزمالك", g: "القاهرة", k: 42 },
+          { n: "كافيه ريڤولفر - المعادي", g: "القاهرة", k: 31 },
+          { n: "كافيه الشاطبي", g: "الإسكندرية", k: 18 },
+          { n: "كافيه المحطة", g: "المنصورة", k: 9 },
+        ],
+        F: {},
+        page: "home",
+        tab: "pending",
+        stab: "vpc",
+        users: 1284,
+        swaps: 356,
+      };
+      const ps = () => S.books.find((b) => b.o === "me");
+      const bk = (id) => S.books.find((b) => b.id === id),
+        mine = () => S.books.filter((b) => b.o === "me");
+      const CN = {
+        pending: "قيد الانتظار",
+        ongoing: "جارية",
+        done: "مكتملة",
+        disputed: "نزاع",
+      };
+      function toast(m) {
+        const t = $("#ts");
+        t.textContent = m;
+        t.style.display = "block";
+        clearTimeout(t._t);
+        t._t = setTimeout(() => (t.style.display = "none"), 2600);
+      }
+      function modal(h) {
+        $("#md").innerHTML = h;
+        $("#ov").classList.add("on");
+      }
+      function closeM() {
+        $("#ov").classList.remove("on");
+      }
+      $("#ov").onclick = (e) => {
+        if (e.target.id === "ov") closeM();
+      };
+      document.onkeydown = (e) => {
+        if (e.key === "Escape") closeM();
+      };
+      function cover(b) {
+        if (b.img)
+          return `<div class="cover" style="background:url(${b.img}) center/cover"></div>`;
+        return `<div class="cover" style="background:linear-gradient(160deg,hsl(${b.h} 50% 30%),hsl(${(b.h + 50) % 360} 55% 12%))"><small>${b.a}</small><b>${b.t}</b><small>بوك نوك</small></div>`;
+      }
+      function bcard(b, btn = true) {
+        return `<div class="card book">${cover(b)}<div><b class="cairo">${b.t}</b><div style="color:var(--mut);font-size:.88rem">${b.a}</div>
+<span class="tag e">${b.g}</span><span class="tag a">${b.n}</span><span class="tag">${b.x === "direct" ? "تبادل مباشر" : b.p + " نقطة"}</span>${b.o === "me" ? '<span class="tag e">كتابك</span>' : ""}</div>${btn ? `<button class="btn" onclick="propose(${b.id})">اطلب الكتاب</button>` : ""}</div>`;
+      }
+      function nav() {
+        const h = Object.keys(PAGES)
+          .map(
+            (k) =>
+              `<a class="${S.page === k ? "on" : ""}" onclick="go('${k}')">${PAGES[k]}</a>`,
+          )
+          .join("");
+        $("#nt").innerHTML = h;
+        $("#nb").innerHTML = h;
+        const pb = $("#pb"),
+          t = S.pts + " نقطة قراءة";
+        if (pb.textContent && pb.textContent !== t) {
+          pb.classList.remove("bump");
+          void pb.offsetWidth;
+          pb.classList.add("bump");
+        }
+        pb.textContent = t;
+      }
+      function stag() {
+        document
+          .querySelectorAll(".grid>.card")
+          .forEach((c, i) => c.style.setProperty("--i", Math.min(i, 12)));
+      }
+      function go(p) {
+        S.page = p;
+        nav();
+        R[p]();
+        stag();
+        scrollTo(0, 0);
+      }
+      function count(el, to) {
+        let n = 0;
+        const st = Math.max(1, Math.round(to / 40));
+        const i = setInterval(() => {
+          n = Math.min(to, n + st);
+          el.textContent = n.toLocaleString("ar-EG");
+          if (n >= to) clearInterval(i);
+        }, 30);
+      }
+      const R = {
+        home() {
+          const ok = S.books.filter((b) => b.s === "ok");
+          $("#app").innerHTML = `<section class="hero"><div class="float">${ok
+            .slice(0, 3)
+            .map((b) => `<div class="fb">${cover(b)}</div>`)
+            .join("")}</div><div class="hero-copy"><div class="eyebrow">مجتمع تبادل الكتب في مصر</div><h1>كتبك المركونة هي تذكرتك لقراءة كتب جديدة</h1>
+<p>سيب الكتب اللي خلصتها تلف على قراء تانيين في مصر. اعرض كتابك واكسب 30 نقطة قراءة، واطلب كتاب جديد بنقاطك أو بكتاب بدل كتاب.</p></div>
 <div class="row"><button class="btn" onclick="go('market')">تصفح الكتب</button><button class="btn o" onclick="upload()">اعرض كتابك واكسب 30 نقطة</button></div>
-<div class="stats"><div class="stat"><b data-c="${S.users}">0</b><small>قارئ في المجتمع</small></div><div class="stat"><b data-c="${ok.length+2400}">0</b><small>كتاب متاح دلوقتي</small></div><div class="stat"><b data-c="${S.swaps}">0</b><small>تبادل تم بنجاح</small></div><div class="stat"><b data-c="4">0</b><small>محافظات</small></div></div></section>
+<div class="stats"><div class="stat"><b data-c="${S.users}">0</b><small>قارئ في المجتمع</small></div><div class="stat"><b data-c="${ok.length + 2400}">0</b><small>كتاب متاح دلوقتي</small></div><div class="stat"><b data-c="${S.swaps}">0</b><small>تبادل تم بنجاح</small></div><div class="stat"><b data-c="4">0</b><small>محافظات</small></div></div></section>
 <h2>كيف تعمل المنصة</h2><div class="g3 steps">
 <div class="card"><div class="step-n">١</div><h3>ارفع كتابك واكسب نقاط</h3><p style="color:var(--mut)">صوّر الكتاب، وإحنا نجيب غلافه الأصلي، وتاخد 30 نقطة قراءة على طول.</p></div>
 <div class="card"><div class="step-n">٢</div><h3>تصفح واطلب</h3><p style="color:var(--mut)">فلتر بمحافظتك ونوع الكتاب، وابعت طلب بكتاب من مكتبتك أو بنقاطك.</p></div>
 <div class="card"><div class="step-n">٣</div><h3>استلم من كافيه شريك أو بالتوصيل</h3><p style="color:var(--mut)">الاستلام من الكافيه مجاناً، وشحن الباب للباب بـ 25 ج.م. وتأكيد بـ QR من الطرفين.</p></div></div>
-<h2>كتب متاحة في المحافظات</h2><div class="grid">${ok.slice(0,4).map(b=>bcard(b)).join('')}</div>`;
-document.querySelectorAll('[data-c]').forEach(e=>count(e,+e.dataset.c))},
-market(){const o=a=>a.map(x=>`<option>${x}</option>`).join('');
-$('#app').innerHTML=`<div class="row" style="justify-content:space-between"><h2 style="margin:.4em 0">المكتبة</h2><button class="btn a" onclick="upload()">+ اعرض كتاب (30 نقطة)</button></div>
-<div class="filters"><input id="fq" placeholder="ابحث بالعنوان أو المؤلف" oninput="fl()"><select id="fg" onchange="fl()"><option value="">كل المحافظات</option>${o(GOV)}</select><select id="fc" onchange="fl()"><option value="">كل الأنواع</option>${o(CAT)}</select><select id="fn" onchange="fl()"><option value="">كل الحالات</option>${o(CON)}</select><select id="fx" onchange="fl()"><option value="">مباشر / نقاط</option><option value="direct">مباشر</option><option value="points">نقاط</option></select></div><div class="grid" id="gr"></div>`;fl()},
-orders(){const L=S.orders.filter(o=>S.tab==='pending'?o.st==='pending':S.tab==='ongoing'?['ongoing','disputed'].includes(o.st):o.st==='done');
-$('#app').innerHTML=`<h2 style="margin-top:.4em">جدول التبادل ومتابعة الطلبات</h2><div class="tabs">${['pending','ongoing','done'].map(t=>`<button class="tab ${S.tab===t?'on':''}" onclick="S.tab='${t}';R.orders()">${CN[t]} (${S.orders.filter(o=>t==='pending'?o.st==='pending':t==='ongoing'?['ongoing','disputed'].includes(o.st):o.st==='done').length})</button>`).join('')}</div>
-${L.length?L.map(ocard).join(''):'<div class="empty">مفيش طلبات هنا. ابدأ بتصفح المكتبة وابعت طلب.</div>'}`},
-wallet(){$('#app').innerHTML=`<h2 style="margin-top:.4em">محفظة بوك نوك</h2><div class="card"><div style="color:var(--mut)">رصيد النقاط</div><div class="big">${S.pts} <span style="font-size:1.1rem">نقطة قراءة</span></div><p style="color:var(--mut);margin:0">النقاط مش فلوس. بتاخدها لما تعرض كتاب، وتصرفها لما تطلب كتاب.</p><div class="row" style="margin-top:10px"><button class="btn" onclick="upload()">اكسب 30 نقطة</button><button class="btn o" onclick="go('market')">اصرف نقاطك</button></div></div>
-<h2>سجل النقاط</h2><div class="card">${S.hist.map(h=>`<div class="hist"><span>${h.t}</span><span class="${h.v>0?'plus':'minus'}">${h.v>0?'+':''}${h.v}</span></div>`).join('')}</div>
-<h2>مدفوعات التوصيل</h2><div class="card">${S.rec.length?S.rec.map(r=>`<div class="hist"><span>طلب #${r.o} - ${r.w}</span><span><b>${r.a} ج.م</b> <span class="tag e">${r.s}</span></span></div>`).join(''):'<div class="empty">مفيش مدفوعات توصيل لسه.</div>'}<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">بتدفع رسوم التوصيل مع كل طلب (عند الاستلام أو دلوقتي). مفيش رصيد فلوس ولا شحن محفظة.</p></div>`},
-admin(){const pend=S.books.filter(b=>b.s==='pending'),dis=S.orders.filter(o=>o.st==='disputed'),door=S.rec.length;
-$('#app').innerHTML=`<h2 style="margin-top:.4em">لوحة إدارة المنصة</h2><div class="stats"><div class="stat"><b>${S.users.toLocaleString('ar-EG')}</b><small>إجمالي المستخدمين</small></div><div class="stat"><b>${(S.books.filter(b=>b.s==='ok').length+2400).toLocaleString('ar-EG')}</b><small>كتب نشطة</small></div><div class="stat"><b>${S.swaps}</b><small>تبادلات مكتملة</small></div><div class="stat"><b>${(3450+door*5).toLocaleString('ar-EG')} ج.م</b><small>إيراد التوصيل</small></div></div>
-<h2>مراجعة الكتب المرفوعة</h2><div class="card tw">${pend.length?`<table><tr><th>الكتاب</th><th>المحافظة</th><th>المالك</th><th></th></tr>${pend.map(b=>`<tr><td>${b.img?`<img src="${b.img}" alt="" style="height:48px;border-radius:6px;vertical-align:middle;margin-inline-end:8px">`:''}${b.t}</td><td>${b.g}</td><td>${b.o==='me'?'أنا':b.o}</td><td class="row"><button class="btn s" onclick="mod(${b.id},1)">قبول</button><button class="btn r s" onclick="mod(${b.id},0)">رفض</button></td></tr>`).join('')}</table>`:'<div class="empty">مفيش كتب مستنية مراجعة.</div>'}</div>
-<h2>حل النزاعات</h2><div class="card">${dis.length?dis.map(o=>`<div class="hist" style="flex-wrap:wrap;gap:8px"><span>طلب #${o.id} - ${bk(o.b).t}</span><span class="row"><button class="btn s" onclick="resolve(${o.id},'a')">رد النقاط للطالب</button><button class="btn o s" onclick="resolve(${o.id},'b')">إغلاق لصالح المالك</button></span></div>`).join(''):'<div class="empty">مفيش نزاعات مفتوحة. أي طلب فيه إبلاغ عن مشكلة هيظهر هنا.</div>'}</div>
-<h2>الكافيهات الشريكة</h2><div class="card tw"><table><tr><th>الكافيه</th><th>المحافظة</th><th>عمليات QR</th><th></th></tr>${S.cafes.map((c,i)=>`<tr><td>${c.n}</td><td>${c.g}</td><td>${c.k}</td><td><button class="btn o s" onclick="S.cafes[${i}].k++;R.admin()">تسجيل مسح QR</button></td></tr>`).join('')}</table></div>`},
-strategy(){const T={vpc:'قيمة المنتج (VPC)',icp:'العميل المثالي (ICP)',bmc:'نموذج العمل (BMC)'};
-const C={vpc:`<div class="g3"><div class="card"><h3>مهام العميل</h3><ul class="l"><li>يقرا كتب كتير بميزانية قليلة</li><li>يفضّي رف الكتب المركونة</li><li>يلاقي ناس بتحب نفس الكتب</li></ul><h3>الآلام</h3><ul class="l"><li>الكتب غالية</li><li>الكتب القديمة بتاخد مكان ومحدش بيشتريها</li><li>الخوف من حالة الكتاب أو من النصب</li></ul><h3>المكاسب</h3><ul class="l"><li>كتب جديدة من غير فلوس</li><li>مجتمع قراء</li><li>استلام سهل وآمن</li></ul></div>
+<h2>كتب متاحة في المحافظات</h2><div class="grid">${ok
+            .slice(0, 4)
+            .map((b) => bcard(b))
+            .join("")}</div>`;
+          document
+            .querySelectorAll("[data-c]")
+            .forEach((e) => count(e, +e.dataset.c));
+        },
+        market() {
+          const o = (a) => a.map((x) => `<option>${x}</option>`).join("");
+          $("#app").innerHTML =
+            `<div class="row" style="justify-content:space-between"><h2 style="margin:.4em 0">المكتبة</h2><button class="btn a" onclick="upload()">+ اعرض كتاب (30 نقطة)</button></div>
+<div class="filters"><input id="fq" placeholder="ابحث بالعنوان أو المؤلف" oninput="fl()"><select id="fg" onchange="fl()"><option value="">كل المحافظات</option>${o(GOV)}</select><select id="fc" onchange="fl()"><option value="">كل الأنواع</option>${o(CAT)}</select><select id="fn" onchange="fl()"><option value="">كل الحالات</option>${o(CON)}</select><select id="fx" onchange="fl()"><option value="">مباشر / نقاط</option><option value="direct">مباشر</option><option value="points">نقاط</option></select></div><div class="grid" id="gr"></div>`;
+          fl();
+        },
+        orders() {
+          const L = S.orders.filter((o) =>
+            S.tab === "pending"
+              ? o.st === "pending"
+              : S.tab === "ongoing"
+                ? ["ongoing", "disputed"].includes(o.st)
+                : o.st === "done",
+          );
+          $("#app").innerHTML =
+            `<h2 style="margin-top:.4em">جدول التبادل ومتابعة الطلبات</h2><div class="tabs">${["pending", "ongoing", "done"].map((t) => `<button class="tab ${S.tab === t ? "on" : ""}" onclick="S.tab='${t}';R.orders()">${CN[t]} (${S.orders.filter((o) => (t === "pending" ? o.st === "pending" : t === "ongoing" ? ["ongoing", "disputed"].includes(o.st) : o.st === "done")).length})</button>`).join("")}</div>
+${L.length ? L.map(ocard).join("") : '<div class="empty">مفيش طلبات هنا. ابدأ بتصفح المكتبة وابعت طلب.</div>'}`;
+        },
+        wallet() {
+          $("#app").innerHTML =
+            `<h2 style="margin-top:.4em">محفظة بوك نوك</h2><div class="card"><div style="color:var(--mut)">رصيد النقاط</div><div class="big">${S.pts} <span style="font-size:1.1rem">نقطة قراءة</span></div><p style="color:var(--mut);margin:0">النقاط مش فلوس. بتاخدها لما تعرض كتاب، وتصرفها لما تطلب كتاب.</p><div class="row" style="margin-top:10px"><button class="btn" onclick="upload()">اكسب 30 نقطة</button><button class="btn o" onclick="go('market')">اصرف نقاطك</button></div></div>
+<h2>سجل النقاط</h2><div class="card">${S.hist.map((h) => `<div class="hist"><span>${h.t}</span><span class="${h.v > 0 ? "plus" : "minus"}">${h.v > 0 ? "+" : ""}${h.v}</span></div>`).join("")}</div>
+<h2>مدفوعات التوصيل</h2><div class="card">${S.rec.length ? S.rec.map((r) => `<div class="hist"><span>طلب #${r.o} - ${r.w}</span><span><b>${r.a} ج.م</b> <span class="tag e">${r.s}</span></span></div>`).join("") : '<div class="empty">مفيش مدفوعات توصيل لسه.</div>'}<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">بتدفع رسوم التوصيل مع كل طلب (عند الاستلام أو دلوقتي). مفيش رصيد فلوس ولا شحن محفظة.</p></div>`;
+        },
+        admin() {
+          const pend = S.books.filter((b) => b.s === "pending"),
+            dis = S.orders.filter((o) => o.st === "disputed"),
+            door = S.rec.length;
+          $("#app").innerHTML =
+            `<h2 style="margin-top:.4em">لوحة إدارة المنصة</h2><div class="stats"><div class="stat"><b>${S.users.toLocaleString("ar-EG")}</b><small>إجمالي المستخدمين</small></div><div class="stat"><b>${(S.books.filter((b) => b.s === "ok").length + 2400).toLocaleString("ar-EG")}</b><small>كتب نشطة</small></div><div class="stat"><b>${S.swaps}</b><small>تبادلات مكتملة</small></div><div class="stat"><b>${(3450 + door * 5).toLocaleString("ar-EG")} ج.م</b><small>إيراد التوصيل</small></div></div>
+<h2>مراجعة الكتب المرفوعة</h2><div class="card tw">${pend.length ? `<table><tr><th>الكتاب</th><th>المحافظة</th><th>المالك</th><th></th></tr>${pend.map((b) => `<tr><td>${b.img ? `<img src="${b.img}" alt="" style="height:48px;border-radius:6px;vertical-align:middle;margin-inline-end:8px">` : ""}${b.t}</td><td>${b.g}</td><td>${b.o === "me" ? "أنا" : b.o}</td><td class="row"><button class="btn s" onclick="mod(${b.id},1)">قبول</button><button class="btn r s" onclick="mod(${b.id},0)">رفض</button></td></tr>`).join("")}</table>` : '<div class="empty">مفيش كتب مستنية مراجعة.</div>'}</div>
+<h2>حل النزاعات</h2><div class="card">${dis.length ? dis.map((o) => `<div class="hist" style="flex-wrap:wrap;gap:8px"><span>طلب #${o.id} - ${bk(o.b).t}</span><span class="row"><button class="btn s" onclick="resolve(${o.id},'a')">رد النقاط للطالب</button><button class="btn o s" onclick="resolve(${o.id},'b')">إغلاق لصالح المالك</button></span></div>`).join("") : '<div class="empty">مفيش نزاعات مفتوحة. أي طلب فيه إبلاغ عن مشكلة هيظهر هنا.</div>'}</div>
+<h2>الكافيهات الشريكة</h2><div class="card tw"><table><tr><th>الكافيه</th><th>المحافظة</th><th>عمليات QR</th><th></th></tr>${S.cafes.map((c, i) => `<tr><td>${c.n}</td><td>${c.g}</td><td>${c.k}</td><td><button class="btn o s" onclick="S.cafes[${i}].k++;R.admin()">تسجيل مسح QR</button></td></tr>`).join("")}</table></div>`;
+        },
+        strategy() {
+          const T = {
+            vpc: "قيمة المنتج (VPC)",
+            icp: "العميل المثالي (ICP)",
+            bmc: "نموذج العمل (BMC)",
+          };
+          const C = {
+            vpc: `<div class="g3"><div class="card"><h3>مهام العميل</h3><ul class="l"><li>يقرا كتب كتير بميزانية قليلة</li><li>يفضّي رف الكتب المركونة</li><li>يلاقي ناس بتحب نفس الكتب</li></ul><h3>الآلام</h3><ul class="l"><li>الكتب غالية</li><li>الكتب القديمة بتاخد مكان ومحدش بيشتريها</li><li>الخوف من حالة الكتاب أو من النصب</li></ul><h3>المكاسب</h3><ul class="l"><li>كتب جديدة من غير فلوس</li><li>مجتمع قراء</li><li>استلام سهل وآمن</li></ul></div>
 <div class="card"><h3>المنتج</h3><ul class="l"><li>منصة تبادل كتب بالنقاط أو كتاب بكتاب</li><li>QR وتأكيد من الطرفين</li><li>نقاط استلام في كافيهات شريكة</li></ul><h3>مسكّنات الألم</h3><ul class="l"><li>النقاط بدل الدفع</li><li>مراجعة الكتب قبل النشر</li><li>إدارة النزاعات</li></ul><h3>صانعات المكسب</h3><ul class="l"><li>30 نقطة على كل كتاب</li><li>فلتر بالمحافظة</li><li>توصيل بـ 25 ج.م</li></ul></div></div>`,
-icp:`<div class="g3"><div class="card"><h3>سلمى القارئة الشغوفة</h3><p style="color:var(--mut)">26 سنة، مصممة في القاهرة. بتخلص كتابين في الشهر وبتحب الروايات والأدب المترجم. عايزة تقرا أكتر من غير ما تصرف على كل كتاب.</p><ul class="l"><li>بتستخدم إنستجرام وفودافون كاش</li><li>بتفضل الاستلام من كافيه قريب</li><li>أكبر خوف: حالة الكتاب</li></ul></div>
+            icp: `<div class="g3"><div class="card"><h3>سلمى القارئة الشغوفة</h3><p style="color:var(--mut)">26 سنة، مصممة في القاهرة. بتخلص كتابين في الشهر وبتحب الروايات والأدب المترجم. عايزة تقرا أكتر من غير ما تصرف على كل كتاب.</p><ul class="l"><li>بتستخدم إنستجرام وفودافون كاش</li><li>بتفضل الاستلام من كافيه قريب</li><li>أكبر خوف: حالة الكتاب</li></ul></div>
 <div class="card"><h3>أحمد جامع الكتب</h3><p style="color:var(--mut)">34 سنة، مهندس في الإسكندرية. عنده أكتر من 300 كتاب وعايز يبدّل الطبعات القديمة والنادرة.</p><ul class="l"><li>بيحب التاريخ والعلوم</li><li>بيعرض كتب كتير وبيدوّر على النادر</li><li>أكبر خوف: التبادل مش عادل</li></ul></div></div>`,
-bmc:`<div class="row noprint" style="justify-content:flex-end"><button class="btn o" onclick="print()">طباعة النموذج</button></div><div class="bmc"><div class="card"><h4>الشركاء</h4><ul class="l"><li>كافيهات شريكة</li><li>بوسطة / شركات شحن</li><li>فوري وفودافون كاش</li></ul></div><div class="card"><h4>الأنشطة</h4><ul class="l"><li>مراجعة الكتب</li><li>إدارة النزاعات</li><li>بناء المجتمع</li></ul></div><div class="card w2"><h4>القيمة المقدمة</h4><ul class="l"><li>كتب جديدة بالنقاط</li><li>تبادل آمن بـ QR</li><li>استلام من كافيه مجاناً</li></ul></div><div class="card"><h4>علاقة العملاء</h4><ul class="l"><li>مجتمع وتقييمات</li><li>دعم واتساب</li></ul></div><div class="card"><h4>الشرائح</h4><ul class="l"><li>القراء الشباب</li><li>جامعو الكتب</li></ul></div><div class="card"><h4>الموارد</h4><ul class="l"><li>الفريق والتطبيق</li><li>قاعدة الكتب</li></ul></div><div class="card"><h4>القنوات</h4><ul class="l"><li>سوشيال ميديا</li><li>الكافيهات</li></ul></div><div class="card w5"><h4>التكاليف</h4><ul class="l"><li>الاستضافة والتطوير</li><li>تسوية رسوم الشحن (20 ج.م للطلب)</li></ul></div><div class="card w5"><h4>الإيرادات</h4><ul class="l"><li>هامش التوصيل (5 إلى 15 ج.م)</li><li>رعاية الكافيهات والإعلانات</li><li>شراء نقاط إضافية لاحقاً</li></ul></div></div>`};
-$('#app').innerHTML=`<h2 style="margin-top:.4em">مخططات العمل والاستراتيجية</h2><div class="tabs">${Object.keys(T).map(k=>`<button class="tab ${S.stab===k?'on':''}" onclick="S.stab='${k}';R.strategy()">${T[k]}</button>`).join('')}</div>${C[S.stab]}`}};
-function fl(){const q=$('#fq').value.trim(),v=i=>$('#'+i).value;
-const L=S.books.filter(b=>b.s==='ok'&&(!v('fg')||b.g===v('fg'))&&(!v('fc')||b.c===v('fc'))&&(!v('fn')||b.n===v('fn'))&&(!v('fx')||b.x===v('fx'))&&(!q||(b.t+b.a).includes(q)));
-$('#gr').innerHTML=L.length?L.map(b=>bcard(b)).join(''):'<div class="empty" style="grid-column:1/-1">مفيش كتب بالفلاتر دي. جرّب تغيّر المحافظة أو النوع.</div>';stag()}
-function propose(id){const b=bk(id),m=mine().filter(x=>x.s==='ok'&&x.id!==id);
-modal(`<h3>طلب: ${b.t}</h3><p style="color:var(--mut);margin:0">من ${b.o} في ${b.g}</p>
+            bmc: `<div class="row noprint" style="justify-content:flex-end"><button class="btn o" onclick="print()">طباعة النموذج</button></div><div class="bmc"><div class="card"><h4>الشركاء</h4><ul class="l"><li>كافيهات شريكة</li><li>بوسطة / شركات شحن</li><li>فوري وفودافون كاش</li></ul></div><div class="card"><h4>الأنشطة</h4><ul class="l"><li>مراجعة الكتب</li><li>إدارة النزاعات</li><li>بناء المجتمع</li></ul></div><div class="card w2"><h4>القيمة المقدمة</h4><ul class="l"><li>كتب جديدة بالنقاط</li><li>تبادل آمن بـ QR</li><li>استلام من كافيه مجاناً</li></ul></div><div class="card"><h4>علاقة العملاء</h4><ul class="l"><li>مجتمع وتقييمات</li><li>دعم واتساب</li></ul></div><div class="card"><h4>الشرائح</h4><ul class="l"><li>القراء الشباب</li><li>جامعو الكتب</li></ul></div><div class="card"><h4>الموارد</h4><ul class="l"><li>الفريق والتطبيق</li><li>قاعدة الكتب</li></ul></div><div class="card"><h4>القنوات</h4><ul class="l"><li>سوشيال ميديا</li><li>الكافيهات</li></ul></div><div class="card w5"><h4>التكاليف</h4><ul class="l"><li>الاستضافة والتطوير</li><li>تسوية رسوم الشحن (20 ج.م للطلب)</li></ul></div><div class="card w5"><h4>الإيرادات</h4><ul class="l"><li>هامش التوصيل (5 إلى 15 ج.م)</li><li>رعاية الكافيهات والإعلانات</li><li>شراء نقاط إضافية لاحقاً</li></ul></div></div>`,
+          };
+          $("#app").innerHTML =
+            `<h2 style="margin-top:.4em">مخططات العمل والاستراتيجية</h2><div class="tabs">${Object.keys(
+              T,
+            )
+              .map(
+                (k) =>
+                  `<button class="tab ${S.stab === k ? "on" : ""}" onclick="S.stab='${k}';R.strategy()">${T[k]}</button>`,
+              )
+              .join("")}</div>${C[S.stab]}`;
+        },
+      };
+      function fl() {
+        const q = $("#fq").value.trim(),
+          v = (i) => $("#" + i).value;
+        const L = S.books.filter(
+          (b) =>
+            b.s === "ok" &&
+            (!v("fg") || b.g === v("fg")) &&
+            (!v("fc") || b.c === v("fc")) &&
+            (!v("fn") || b.n === v("fn")) &&
+            (!v("fx") || b.x === v("fx")) &&
+            (!q || (b.t + b.a).includes(q)),
+        );
+        $("#gr").innerHTML = L.length
+          ? L.map((b) => bcard(b)).join("")
+          : '<div class="empty" style="grid-column:1/-1">مفيش كتب بالفلاتر دي. جرّب تغيّر المحافظة أو النوع.</div>';
+        stag();
+      }
+      function propose(id) {
+        const b = bk(id),
+          m = mine().filter((x) => x.s === "ok" && x.id !== id);
+        modal(`<h3>طلب: ${b.t}</h3><p style="color:var(--mut);margin:0">من ${b.o} في ${b.g}</p>
 <label>هتدفع إزاي؟</label><label class="opt"><input type="radio" name="m" value="pts" checked onchange="pm()">بنقاطي (${b.p} نقطة، رصيدك ${S.pts})</label>
 <label class="opt"><input type="radio" name="m" value="book" onchange="pm()">بكتاب من مكتبتي</label>
-<div id="bk" style="display:none"><select id="off">${m.length?m.map(x=>`<option value="${x.id}">${x.t}</option>`).join(''):'<option value="">مفيش كتب معتمدة في مكتبتك</option>'}</select></div>
+<div id="bk" style="display:none"><select id="off">${m.length ? m.map((x) => `<option value="${x.id}">${x.t}</option>`).join("") : '<option value="">مفيش كتب معتمدة في مكتبتك</option>'}</select></div>
 <label>الاستلام</label><label class="opt"><input type="radio" name="d" value="cafe" checked onchange="pm()">كافيه شريك / نقطة استلام (مجاناً)</label>
 <label class="opt"><input type="radio" name="d" value="door" onchange="pm()">شحن من الباب للباب (25 ج.م)</label>
 <div id="py" style="display:none"><select id="pay"><option value="cod">الدفع عند الاستلام</option><option value="فوري">ادفع الآن - فوري</option><option value="فودافون كاش">ادفع الآن - فودافون كاش</option><option value="إنستا باي">ادفع الآن - إنستا باي</option></select></div>
-<div class="row" style="margin-top:16px"><button class="btn" onclick="sendReq(${id})">ابعت الطلب</button><button class="btn o" onclick="closeM()">إلغاء</button></div>`)}
-function pm(){const g=n=>document.querySelector(`input[name=${n}]:checked`).value;$('#bk').style.display=g('m')==='book'?'block':'none';$('#py').style.display=g('d')==='door'?'block':'none'}
-function sendReq(id){const b=bk(id),g=n=>document.querySelector(`input[name=${n}]:checked`).value,m=g('m'),d=g('d');let off=null;
-if(m==='pts'){if(S.pts<b.p)return toast('رصيدك مش كفاية. اعرض كتاب واكسب 30 نقطة.');}
-else{off=+$('#off').value;if(!off)return toast('اعرض كتاب في مكتبتك الأول.')}
-const o={id:S.nid++,b:id,m,off,d,st:'pending',me:false,ot:false,cafe:'كافيه ديوان - الزمالك'};
-if(m==='pts'){S.pts-=b.p;S.hist.unshift({t:'طلب: '+b.t,v:-b.p})}
-if(d==='door'){const p=$('#pay').value;o.pay=p==='cod'?'cod':'paid';S.rec.unshift({o:o.id,a:25,w:p==='cod'?'الدفع عند الاستلام':'ادفع الآن - '+p,s:p==='cod'?'عند الاستلام':'مدفوع'})}
-S.orders.unshift(o);closeM();S.tab='pending';nav();go('orders');toast('اتبعت طلبك. مستنيين رد صاحب الكتاب.')}
-function ocard(o){const b=bk(o.b),w=o.m==='pts'?b.p+' نقطة':'بكتاب: '+(bk(o.off)||{t:'-'}).t;
-return `<div class="card" style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap"><div style="width:90px">${cover(b)}</div><div style="flex:1;min-width:200px"><div class="row"><h3>${b.t}</h3><span class="st ${o.st}">${CN[o.st]}</span></div>
-<div style="color:var(--mut);font-size:.9rem">طلب #${o.id} | ${w} | ${o.d==='cafe'?'استلام من '+(o.cafe||'كافيه شريك'):'شحن الباب للباب'}</div>
-${o.st==='ongoing'?`<div style="margin:6px 0;font-size:.9rem">تأكيدك: ${o.me?'تم':'لسه'} | تأكيد الطرف التاني: ${o.ot?'تم':'لسه'}</div>`:''}
-<div class="row" style="margin-top:8px">${o.st==='pending'?`<button class="btn s" onclick="accept(${o.id})">محاكاة: المالك وافق</button>`:''}
-${o.st==='ongoing'?`<button class="btn o s" onclick="qrm(${o.id})">عرض QR</button>${o.me?'':`<button class="btn s" onclick="conf(${o.id},'me')">استلمت الكتاب بحالة ممتازة</button>`}${o.ot?'':`<button class="btn o s" onclick="conf(${o.id},'ot')">محاكاة: الطرف التاني أكّد</button>`}<button class="btn r s" onclick="issue(${o.id})">إبلاغ عن مشكلة</button>`:''}</div></div></div>`}
-const oo=id=>S.orders.find(o=>o.id===id);
-function accept(id){oo(id).st='ongoing';R.orders();toast('المالك وافق. اعرض الـ QR وقت الاستلام.')}
-function conf(id,w){const o=oo(id);o[w]=true;if(o.me&&o.ot){o.st='done';S.swaps++;S.hist.unshift({t:'تبادل مكتمل: '+bk(o.b).t,v:0});toast('التبادل اكتمل. مبروك على الكتاب الجديد!')}else toast('تم تأكيدك. مستنيين الطرف التاني.');R.orders()}
-function issue(id){oo(id).st='disputed';R.orders();toast('اتبلغ عن المشكلة. فريق الإدارة هيراجع الطلب.')}
-function resolve(id,w){const o=oo(id),b=bk(o.b);if(w==='a'&&o.m==='pts'){S.pts+=b.p;S.hist.unshift({t:'استرداد: '+b.t,v:b.p})}o.st=w==='a'?'pending':'done';nav();R.admin();toast('تم حل النزاع')}
-function mod(id,ok){const b=bk(id);if(ok)b.s='ok';else S.books=S.books.filter(x=>x.id!==id);R.admin();toast(ok?'اتقبل الكتاب ونزل في المكتبة':'اترفض الكتاب')}
-function qr(seed){let h=0;for(const c of seed)h=(h*31+c.charCodeAt(0))>>>0;const n=21;let r='';
-for(let y=0;y<n;y++)for(let x=0;x<n;x++){let on;const f=(a,b)=>{const dx=x-a,dy=y-b;if(dx<0||dy<0||dx>6||dy>6)return null;return Math.max(Math.abs(dx-3),Math.abs(dy-3))!==2};
-const q=f(0,0)??f(14,0)??f(0,14);if(q!==null)on=q;else{h=(h*1103515245+12345)>>>0;on=(h>>16)&1}
-if(on)r+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}
-return `<svg viewBox="-1 -1 23 23" width="200" height="200" style="background:#fff;border-radius:8px;padding:6px" fill="#000" shape-rendering="crispEdges">${r}</svg>`}
-function qrm(id){const code='BN-'+id+'-'+Math.floor(Date.now()/60000)%10000;modal(`<h3>كود الاستلام</h3><p style="color:var(--mut)">اعرض الكود ده للكافيه الشريك أو مندوب الشحن عند التسليم.</p><div style="text-align:center">${qr(code)}<div class="cairo" style="margin:8px 0;letter-spacing:2px">${code}</div></div><button class="btn" onclick="closeM()">تمام</button>`)}
-function upload(){UP=null;modal(`<h3>اعرض كتابك واكسب 30 نقطة</h3><div id="up"><label>صورة الكتاب</label><input type="file" accept="image/*" id="ph" onchange="prev(this)"><div id="pv" style="margin-top:8px"></div>
-<label>عنوان الكتاب</label><input id="ut" placeholder="مثال: عزازيل"><label>المؤلف</label><input id="ua"><label>المحافظة</label><select id="ug">${GOV.map(x=>`<option>${x}</option>`).join('')}</select>
-<label>النوع</label><select id="uc">${CAT.map(x=>`<option>${x}</option>`).join('')}</select><label>الحالة</label><select id="un">${CON.map(x=>`<option>${x}</option>`).join('')}</select>
-<div class="row" style="margin-top:16px"><button class="btn" onclick="sub()">ارفع الكتاب</button><button class="btn o" onclick="closeM()">إلغاء</button></div></div>`)}
-let UP=null;function prev(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);UP=c.toDataURL('image/jpeg',.82);$('#pv').innerHTML=`<img src="${UP}" alt="صورة الكتاب" style="max-height:140px;border-radius:8px">`};im.src=r.result};r.readAsDataURL(f)}
-function sub(){const t=$('#ut').value.trim(),a=$('#ua').value.trim();if(!t||!a)return toast('اكتب عنوان الكتاب واسم المؤلف');
-let h=0;for(const c of t)h=(h*7+c.charCodeAt(0))%360;const b={id:S.nid++,t,a,g:$('#ug').value,c:$('#uc').value,n:$('#un').value,x:'direct',p:50,o:'me',h,s:'pending',img:UP};
-$('#up').innerHTML=`<p class="cairo">بندوّر على الغلاف الأصلي...</p><div class="scan" style="width:60%;margin:auto">${cover(b)}</div>`;
-setTimeout(()=>{S.books.push(b);S.pts+=30;S.hist.unshift({t:'عرض كتاب: '+t,v:30});$('#up').innerHTML=`<div style="width:55%;margin:auto">${cover(b)}</div><p style="text-align:center"><b class="plus">+30 نقطة قراءة</b><br><span style="color:var(--mut)">لقينا الغلاف وربطناه بكتابك. الكتاب هينزل بعد مراجعة الإدارة.</span></p><button class="btn" onclick="closeM();nav();R[S.page]()">تمام</button>`;nav()},1100)}
-nav();go('home');
-</script></body></html>
+<div class="row" style="margin-top:16px"><button class="btn" onclick="sendReq(${id})">ابعت الطلب</button><button class="btn o" onclick="closeM()">إلغاء</button></div>`);
+      }
+      function pm() {
+        const g = (n) =>
+          document.querySelector(`input[name=${n}]:checked`).value;
+        $("#bk").style.display = g("m") === "book" ? "block" : "none";
+        $("#py").style.display = g("d") === "door" ? "block" : "none";
+      }
+      function sendReq(id) {
+        const b = bk(id),
+          g = (n) => document.querySelector(`input[name=${n}]:checked`).value,
+          m = g("m"),
+          d = g("d");
+        let off = null;
+        if (m === "pts") {
+          if (S.pts < b.p)
+            return toast("رصيدك مش كفاية. اعرض كتاب واكسب 30 نقطة.");
+        } else {
+          off = +$("#off").value;
+          if (!off) return toast("اعرض كتاب في مكتبتك الأول.");
+        }
+        const o = {
+          id: S.nid++,
+          b: id,
+          m,
+          off,
+          d,
+          st: "pending",
+          me: false,
+          ot: false,
+          cafe: "كافيه ديوان - الزمالك",
+        };
+        if (m === "pts") {
+          S.pts -= b.p;
+          S.hist.unshift({ t: "طلب: " + b.t, v: -b.p });
+        }
+        if (d === "door") {
+          const p = $("#pay").value;
+          o.pay = p === "cod" ? "cod" : "paid";
+          S.rec.unshift({
+            o: o.id,
+            a: 25,
+            w: p === "cod" ? "الدفع عند الاستلام" : "ادفع الآن - " + p,
+            s: p === "cod" ? "عند الاستلام" : "مدفوع",
+          });
+        }
+        S.orders.unshift(o);
+        closeM();
+        S.tab = "pending";
+        nav();
+        go("orders");
+        toast("اتبعت طلبك. مستنيين رد صاحب الكتاب.");
+      }
+      function ocard(o) {
+        const b = bk(o.b),
+          w =
+            o.m === "pts"
+              ? b.p + " نقطة"
+              : "بكتاب: " + (bk(o.off) || { t: "-" }).t;
+        return `<div class="card" style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap"><div style="width:90px">${cover(b)}</div><div style="flex:1;min-width:200px"><div class="row"><h3>${b.t}</h3><span class="st ${o.st}">${CN[o.st]}</span></div>
+<div style="color:var(--mut);font-size:.9rem">طلب #${o.id} | ${w} | ${o.d === "cafe" ? "استلام من " + (o.cafe || "كافيه شريك") : "شحن الباب للباب"}</div>
+${o.st === "ongoing" ? `<div style="margin:6px 0;font-size:.9rem">تأكيدك: ${o.me ? "تم" : "لسه"} | تأكيد الطرف التاني: ${o.ot ? "تم" : "لسه"}</div>` : ""}
+<div class="row" style="margin-top:8px">${o.st === "pending" ? `<button class="btn s" onclick="accept(${o.id})">محاكاة: المالك وافق</button>` : ""}
+${o.st === "ongoing" ? `<button class="btn o s" onclick="qrm(${o.id})">عرض QR</button>${o.me ? "" : `<button class="btn s" onclick="conf(${o.id},'me')">استلمت الكتاب بحالة ممتازة</button>`}${o.ot ? "" : `<button class="btn o s" onclick="conf(${o.id},'ot')">محاكاة: الطرف التاني أكّد</button>`}<button class="btn r s" onclick="issue(${o.id})">إبلاغ عن مشكلة</button>` : ""}</div></div></div>`;
+      }
+      const oo = (id) => S.orders.find((o) => o.id === id);
+      function accept(id) {
+        oo(id).st = "ongoing";
+        R.orders();
+        toast("المالك وافق. اعرض الـ QR وقت الاستلام.");
+      }
+      function conf(id, w) {
+        const o = oo(id);
+        o[w] = true;
+        if (o.me && o.ot) {
+          o.st = "done";
+          S.swaps++;
+          S.hist.unshift({ t: "تبادل مكتمل: " + bk(o.b).t, v: 0 });
+          toast("التبادل اكتمل. مبروك على الكتاب الجديد!");
+        } else toast("تم تأكيدك. مستنيين الطرف التاني.");
+        R.orders();
+      }
+      function issue(id) {
+        oo(id).st = "disputed";
+        R.orders();
+        toast("اتبلغ عن المشكلة. فريق الإدارة هيراجع الطلب.");
+      }
+      function resolve(id, w) {
+        const o = oo(id),
+          b = bk(o.b);
+        if (w === "a" && o.m === "pts") {
+          S.pts += b.p;
+          S.hist.unshift({ t: "استرداد: " + b.t, v: b.p });
+        }
+        o.st = w === "a" ? "pending" : "done";
+        nav();
+        R.admin();
+        toast("تم حل النزاع");
+      }
+      function mod(id, ok) {
+        const b = bk(id);
+        if (ok) b.s = "ok";
+        else S.books = S.books.filter((x) => x.id !== id);
+        R.admin();
+        toast(ok ? "اتقبل الكتاب ونزل في المكتبة" : "اترفض الكتاب");
+      }
+      function qr(seed) {
+        let h = 0;
+        for (const c of seed) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+        const n = 21;
+        let r = "";
+        for (let y = 0; y < n; y++)
+          for (let x = 0; x < n; x++) {
+            let on;
+            const f = (a, b) => {
+              const dx = x - a,
+                dy = y - b;
+              if (dx < 0 || dy < 0 || dx > 6 || dy > 6) return null;
+              return Math.max(Math.abs(dx - 3), Math.abs(dy - 3)) !== 2;
+            };
+            const q = f(0, 0) ?? f(14, 0) ?? f(0, 14);
+            if (q !== null) on = q;
+            else {
+              h = (h * 1103515245 + 12345) >>> 0;
+              on = (h >> 16) & 1;
+            }
+            if (on) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+          }
+        return `<svg viewBox="-1 -1 23 23" width="200" height="200" style="background:#fff;border-radius:8px;padding:6px" fill="#000" shape-rendering="crispEdges">${r}</svg>`;
+      }
+      function qrm(id) {
+        const code =
+          "BN-" + id + "-" + (Math.floor(Date.now() / 60000) % 10000);
+        modal(
+          `<h3>كود الاستلام</h3><p style="color:var(--mut)">اعرض الكود ده للكافيه الشريك أو مندوب الشحن عند التسليم.</p><div style="text-align:center">${qr(code)}<div class="cairo" style="margin:8px 0;letter-spacing:2px">${code}</div></div><button class="btn" onclick="closeM()">تمام</button>`,
+        );
+      }
+      function upload() {
+        UP = null;
+        modal(`<h3>اعرض كتابك واكسب 30 نقطة</h3><div id="up"><label>صورة الكتاب</label><input type="file" accept="image/*" id="ph" onchange="prev(this)"><div id="pv" style="margin-top:8px"></div>
+<label>عنوان الكتاب</label><input id="ut" placeholder="مثال: عزازيل"><label>المؤلف</label><input id="ua"><label>المحافظة</label><select id="ug">${GOV.map((x) => `<option>${x}</option>`).join("")}</select>
+<label>النوع</label><select id="uc">${CAT.map((x) => `<option>${x}</option>`).join("")}</select><label>الحالة</label><select id="un">${CON.map((x) => `<option>${x}</option>`).join("")}</select>
+<div class="row" style="margin-top:16px"><button class="btn" onclick="sub()">ارفع الكتاب</button><button class="btn o" onclick="closeM()">إلغاء</button></div></div>`);
+      }
+      let UP = null;
+      function prev(i) {
+        const f = i.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => {
+          const im = new Image();
+          im.onload = () => {
+            const k = Math.min(1, 480 / Math.max(im.width, im.height)),
+              c = document.createElement("canvas");
+            c.width = im.width * k;
+            c.height = im.height * k;
+            c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+            UP = c.toDataURL("image/jpeg", 0.82);
+            $("#pv").innerHTML =
+              `<img src="${UP}" alt="صورة الكتاب" style="max-height:140px;border-radius:8px">`;
+          };
+          im.src = r.result;
+        };
+        r.readAsDataURL(f);
+      }
+      function sub() {
+        const t = $("#ut").value.trim(),
+          a = $("#ua").value.trim();
+        if (!t || !a) return toast("اكتب عنوان الكتاب واسم المؤلف");
+        let h = 0;
+        for (const c of t) h = (h * 7 + c.charCodeAt(0)) % 360;
+        const b = {
+          id: S.nid++,
+          t,
+          a,
+          g: $("#ug").value,
+          c: $("#uc").value,
+          n: $("#un").value,
+          x: "direct",
+          p: 50,
+          o: "me",
+          h,
+          s: "pending",
+          img: UP,
+        };
+        $("#up").innerHTML =
+          `<p class="cairo">بندوّر على الغلاف الأصلي...</p><div class="scan" style="width:60%;margin:auto">${cover(b)}</div>`;
+        setTimeout(() => {
+          S.books.push(b);
+          S.pts += 30;
+          S.hist.unshift({ t: "عرض كتاب: " + t, v: 30 });
+          $("#up").innerHTML =
+            `<div style="width:55%;margin:auto">${cover(b)}</div><p style="text-align:center"><b class="plus">+30 نقطة قراءة</b><br><span style="color:var(--mut)">لقينا الغلاف وربطناه بكتابك. الكتاب هينزل بعد مراجعة الإدارة.</span></p><button class="btn" onclick="closeM();nav();R[S.page]()">تمام</button>`;
+          nav();
+        }, 1100);
+      }
+      nav();
+      go("home");
+    </script>
+  </body>
+</html>
