@@ -1224,6 +1224,30 @@
       function closeM() {
         $("#ov").classList.remove("on");
       }
+      function recharge() {
+        modal(`<h3>اشحن نقاط القراءة</h3><p style="color:var(--mut);margin:0">اختار الباقة وطريقة الدفع المناسبة.</p>
+<label class="opt"><input type="radio" name="pack" value="100:25" checked><span><b>١٠٠ نقطة</b><br><small>٢٥ ج.م</small></span></label>
+<label class="opt"><input type="radio" name="pack" value="250:50"><span><b>٢٥٠ نقطة</b><br><small>٥٠ ج.م</small></span><span class="tag a">الأكثر اختياراً</span></label>
+<label class="opt"><input type="radio" name="pack" value="600:100"><span><b>٦٠٠ نقطة</b><br><small>١٠٠ ج.م</small></span><span class="tag e">قيمة أفضل</span></label>
+<label for="rechargePay">طريقة الدفع</label><select id="rechargePay"><option>فوري</option><option>فودافون كاش</option><option>إنستا باي</option></select>
+<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">محاكاة تجريبية فقط؛ لن يتم خصم أموال حقيقية.</p>
+<div class="row" style="margin-top:16px"><button class="btn" onclick="completeRecharge()">تأكيد الشحن</button><button class="btn o" onclick="closeM()">إلغاء</button></div>`);
+      }
+      function completeRecharge() {
+        const [points, amount] = $("input[name='pack']:checked").value
+            .split(":")
+            .map(Number),
+          method = $("#rechargePay").value;
+        S.pts += points;
+        S.hist.unshift({
+          t: `شحن ${points} نقطة - ${amount} ج.م (${method})`,
+          v: points,
+        });
+        closeM();
+        nav();
+        R.wallet();
+        toast(`تمت إضافة ${points} نقطة إلى رصيدك (محاكاة تجريبية)`);
+      }
       $("#ov").onclick = (e) => {
         if (e.target.id === "ov") closeM();
       };
@@ -1321,9 +1345,9 @@ ${L.length ? L.map(ocard).join("") : '<div class="empty">مفيش طلبات ه�
         },
         wallet() {
           $("#app").innerHTML =
-            `<h2 style="margin-top:.4em">محفظة بوك نوك</h2><div class="card"><div style="color:var(--mut)">رصيد النقاط</div><div class="big">${S.pts} <span style="font-size:1.1rem">نقطة قراءة</span></div><p style="color:var(--mut);margin:0">النقاط مش فلوس. بتاخدها لما تعرض كتاب، وتصرفها لما تطلب كتاب.</p><div class="row" style="margin-top:10px"><button class="btn" onclick="upload()">اكسب 30 نقطة</button><button class="btn o" onclick="go('market')">اصرف نقاطك</button></div></div>
+            `<h2 style="margin-top:.4em">محفظة بوك نوك</h2><div class="card"><div style="color:var(--mut)">رصيد النقاط</div><div class="big">${S.pts} <span style="font-size:1.1rem">نقطة قراءة</span></div><p style="color:var(--mut);margin:0">اكسب النقاط بعرض الكتب أو اشحن باقة تجريبية، واستخدم رصيدك لطلب الكتب.</p><div class="row" style="margin-top:10px"><button class="btn a" onclick="recharge()">اشحن نقاط</button><button class="btn" onclick="upload()">اكسب 30 نقطة</button><button class="btn o" onclick="go('market')">اصرف نقاطك</button></div></div>
 <h2>سجل النقاط</h2><div class="card">${S.hist.map((h) => `<div class="hist"><span>${h.t}</span><span class="${h.v > 0 ? "plus" : "minus"}">${h.v > 0 ? "+" : ""}${h.v}</span></div>`).join("")}</div>
-<h2>مدفوعات التوصيل</h2><div class="card">${S.rec.length ? S.rec.map((r) => `<div class="hist"><span>طلب #${r.o} - ${r.w}</span><span><b>${r.a} ج.م</b> <span class="tag e">${r.s}</span></span></div>`).join("") : '<div class="empty">مفيش مدفوعات توصيل لسه.</div>'}<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">بتدفع رسوم التوصيل مع كل طلب (عند الاستلام أو دلوقتي). مفيش رصيد فلوس ولا شحن محفظة.</p></div>`;
+<h2>مدفوعات التوصيل</h2><div class="card">${S.rec.length ? S.rec.map((r) => `<div class="hist"><span>طلب #${r.o} - ${r.w}</span><span><b>${r.a} ج.م</b> <span class="tag e">${r.s}</span></span></div>`).join("") : '<div class="empty">مفيش مدفوعات توصيل لسه.</div>'}<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">بتدفع رسوم التوصيل مع كل طلب. مفيش رصيد فلوس في المحفظة؛ شحن النقاط في النسخة التجريبية محاكاة فقط.</p></div>`;
         },
         admin() {
           const pend = S.books.filter((b) => b.s === "pending"),
